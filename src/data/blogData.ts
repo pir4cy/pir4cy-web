@@ -1,9 +1,11 @@
 import { Post, Frontmatter } from '../types/blog';
-import * as matter from 'gray-matter';
+import matter from 'gray-matter';
 import { Buffer } from 'buffer';
 
 // Make Buffer available globally
-(globalThis as any).Buffer = Buffer;
+if (typeof window !== 'undefined') {
+  (window as any).Buffer = Buffer;
+}
 
 // Import all markdown files from both blog and htb directories
 const blogPosts = import.meta.glob('../content/blog/*.md', { 
@@ -22,7 +24,9 @@ function parsePost(path: string, content: string): Post | null {
     console.log(`Content length: ${content.length}`);
     console.log(`Content preview: ${content.slice(0, 100)}`);
     
-    const { data, content: markdownContent } = matter.default(content);
+    // Convert string to Buffer for gray-matter
+    const buffer = Buffer.from(content);
+    const { data, content: markdownContent } = matter(buffer);
     
     // Create the slug from the filename
     const slug = path.split('/').pop()?.replace('.md', '') || '';
