@@ -119,33 +119,33 @@ const HomePage: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="brutalist-box hover:border-primary-600 transition-colors duration-300">
               <Terminal className="h-10 w-10 text-primary-500 mb-4" />
-              <h3 className="text-xl font-bold text-white mb-3">Systems Programming</h3>
+              <h3 className="text-xl font-bold text-white mb-3">Security Engineering</h3>
               <p className="text-dark-300">
-                Building high-performance, low-level software with C, Rust, and Go.
+                Expert in incident response, threat analysis, and security operations with proven experience in MDR solutions.
               </p>
             </div>
             
             <div className="brutalist-box hover:border-primary-600 transition-colors duration-300">
               <Code className="h-10 w-10 text-primary-500 mb-4" />
-              <h3 className="text-xl font-bold text-white mb-3">Web Development</h3>
+              <h3 className="text-xl font-bold text-white mb-3">Development & Automation</h3>
               <p className="text-dark-300">
-                Creating responsive, accessible, and modern web applications.
+                Building efficient tools and scripts in Python, JavaScript, and Bash to optimize security workflows.
               </p>
             </div>
             
             <div className="brutalist-box hover:border-primary-600 transition-colors duration-300">
               <Database className="h-10 w-10 text-primary-500 mb-4" />
-              <h3 className="text-xl font-bold text-white mb-3">Data Engineering</h3>
+              <h3 className="text-xl font-bold text-white mb-3">Penetration Testing</h3>
               <p className="text-dark-300">
-                Designing efficient databases and data processing pipelines.
+                Certified PNPT with expertise in web application security, vulnerability assessment, and CTF competitions.
               </p>
             </div>
             
             <div className="brutalist-box hover:border-primary-600 transition-colors duration-300">
               <Server className="h-10 w-10 text-primary-500 mb-4" />
-              <h3 className="text-xl font-bold text-white mb-3">Security Research</h3>
+              <h3 className="text-xl font-bold text-white mb-3">Security Operations</h3>
               <p className="text-dark-300">
-                Finding and addressing vulnerabilities in complex systems.
+                Proficient in threat intelligence, malware analysis, and security incident management.
               </p>
             </div>
           </div>
