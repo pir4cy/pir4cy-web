@@ -1,5 +1,5 @@
 import { Post, Frontmatter } from '../types/blog';
-import matter from 'gray-matter';
+import * as matter from 'gray-matter';
 import { Buffer } from 'buffer';
 
 // Make Buffer available globally
@@ -8,18 +8,20 @@ import { Buffer } from 'buffer';
 // Import all markdown files from both blog and htb directories
 const blogPosts = import.meta.glob('../content/blog/*.md', { 
   eager: true,
-  as: 'raw'
+  query: '?raw',
+  import: 'default',
 }) as Record<string, string>;
 
 const htbPosts = import.meta.glob('../content/htb/*.md', {
   eager: true,
-  as: 'raw'
+  query: '?raw',
+  import: 'default',
 }) as Record<string, string>;
 
 function parsePost(path: string, content: string): Post | null {
   try {
     console.log(`Processing post: ${path}`);
-    const { data, content: markdownContent } = matter(content);
+    const { data, content: markdownContent } = matter.default(content);
     
     // Create the slug from the filename
     const slug = path.split('/').pop()?.replace('.md', '') || '';

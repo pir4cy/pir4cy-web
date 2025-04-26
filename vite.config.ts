@@ -5,7 +5,6 @@ import { resolve } from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  assetsInclude: ['**/*.md'],
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
@@ -16,28 +15,16 @@ export default defineConfig({
     'Buffer': ['buffer', 'Buffer'],
   },
   optimizeDeps: {
-    include: ['buffer'],
+    include: ['gray-matter', 'buffer'],
   },
   build: {
+    commonjsOptions: {
+      include: [/gray-matter/, /node_modules/],
+    },
     rollupOptions: {
       input: {
         main: './index.html',
       },
-      output: {
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name?.endsWith('.md')) {
-            return 'assets/content/[name][extname]';
-          }
-          return 'assets/[name]-[hash][extname]';
-        },
-      },
     },
-    assetsInlineLimit: 0, // Don't inline any assets
-    copyPublicDir: true,
-  },
-  server: {
-    port: 5173,
-    host: true,
-    strictPort: true,
   },
 });
