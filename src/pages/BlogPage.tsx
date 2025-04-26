@@ -17,13 +17,10 @@ const BlogPage: React.FC = () => {
     const fetchPosts = async () => {
       try {
         setIsLoading(true);
-        console.log('Fetching blog posts...');
         const allPosts = await getAllPosts();
-        console.log(`Fetched ${allPosts.length} posts successfully`);
         setPosts(allPosts);
         setError(null);
       } catch (err) {
-        console.error('Error fetching posts:', err);
         setError('Failed to load blog posts. Please try again later.');
       } finally {
         setIsLoading(false);
@@ -143,7 +140,7 @@ const BlogPage: React.FC = () => {
           {/* Loading state */}
           {isLoading && (
             <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500 mx-auto"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500 mx-auto" />
               <p className="text-dark-300 mt-4">Loading blog posts...</p>
             </div>
           )}

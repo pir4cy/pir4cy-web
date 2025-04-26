@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import type { JSX } from 'react';
+import * as React from 'react';
+import type { ReactElement, ComponentProps } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, Clock, Tag } from 'lucide-react';
@@ -14,47 +14,45 @@ import { getPostBySlug } from '../utils/blogUtils';
 import { Post } from '../types/blog';
 import type { Components } from 'react-markdown';
 
-interface ImageProps {
-  src?: string;
-  alt?: string;
-  className?: string;
-}
+type ImageProps = ComponentProps<'img'>;
 
 // Simple image component that handles local paths
-const Image = ({ src, alt, className }: ImageProps): JSX.Element | null => {
+const Image = ({ src, alt, className, ...props }: ImageProps): ReactElement | null => {
   if (!src) return null;
 
-  console.log('Original image src:', src);
+  let imagePath = src;
 
-  // If it's already an absolute URL, use it as is
+  // Handle absolute URLs
   if (src.startsWith('http')) {
-    console.log('Using absolute URL:', src);
-    return <img src={src} alt={alt} className={className} />;
+    imagePath = src;
+  }
+  // Handle local images
+  else if (src.startsWith('/images/')) {
+    imagePath = src;
+  }
+  // Handle relative paths (for HTB writeup images)
+  else {
+    imagePath = `/images/${src}`;
   }
 
-  // If it's already in the correct format (/images/...), use it as is
-  if (src.startsWith('/images/')) {
-    console.log('Using direct images path:', src);
-    return <img src={src} alt={alt} className={className} />;
-  }
-
-  // For legacy paths, convert boxImages/MachineName/image.png to /images/htb/machines/MachineName/image.png
-  const imagePath = src.startsWith('boxImages/') 
-    ? `/images/htb/machines/${src.replace('boxImages/', '')}`
-    : `/images/${src}`;
-  
-  console.log('Converted image path:', imagePath);
-  return <img src={imagePath} alt={alt} className={className} />;
+  return (
+    <img
+      src={imagePath}
+      alt={alt || ''}
+      className={className}
+      {...props}
+    />
+  );
 };
 
-const BlogPostPage = (): JSX.Element => {
+const BlogPostPage = (): ReactElement => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const [post, setPost] = useState<Post | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [post, setPost] = React.useState<Post | null>(null);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
   
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchPost = async () => {
       try {
         if (!slug) {
