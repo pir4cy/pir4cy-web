@@ -8,14 +8,12 @@ import { Buffer } from 'buffer';
 // Import all markdown files from both blog and htb directories
 const blogPosts = import.meta.glob('../content/blog/*.md', { 
   eager: true,
-  query: '?raw',
-  import: 'default',
+  as: 'raw',
 }) as Record<string, string>;
 
 const htbPosts = import.meta.glob('../content/htb/*.md', {
   eager: true,
-  query: '?raw',
-  import: 'default',
+  as: 'raw',
 }) as Record<string, string>;
 
 function parsePost(path: string, content: string): Post | null {
@@ -25,6 +23,14 @@ function parsePost(path: string, content: string): Post | null {
     
     // Create the slug from the filename
     const slug = path.split('/').pop()?.replace('.md', '') || '';
+    
+    // Log for debugging in production
+    console.log(`Processing ${path}:`, {
+      contentLength: content.length,
+      hasData: !!data,
+      dataKeys: Object.keys(data),
+      markdownLength: markdownContent.length
+    });
     
     // Ensure all required fields are present
     const frontmatter: Frontmatter = {
@@ -45,6 +51,8 @@ function parsePost(path: string, content: string): Post | null {
     };
   } catch (error) {
     console.error(`Error processing post ${path}:`, error);
+    console.error('Error details:', error instanceof Error ? error.message : String(error));
+    console.error('Content preview:', content.slice(0, 100));
     return null;
   }
 }
@@ -52,11 +60,15 @@ function parsePost(path: string, content: string): Post | null {
 export const getPosts = async (): Promise<Post[]> => {
   try {
     console.log('Starting to fetch posts...');
+    console.log('Available blog posts:', Object.keys(blogPosts));
+    console.log('Available HTB posts:', Object.keys(htbPosts));
+    
     const posts: Post[] = [];
     
     // Process blog posts
     console.log('Processing blog posts...');
     for (const [path, content] of Object.entries(blogPosts)) {
+      console.log(`Processing blog post at path: ${path}`);
       const post = parsePost(path, content);
       if (post) {
         console.log(`Added blog post: ${post.frontmatter.title}`);
@@ -67,6 +79,7 @@ export const getPosts = async (): Promise<Post[]> => {
     // Process HTB writeups
     console.log('Processing HTB writeups...');
     for (const [path, content] of Object.entries(htbPosts)) {
+      console.log(`Processing HTB writeup at path: ${path}`);
       const post = parsePost(path, content);
       if (post) {
         console.log(`Added HTB writeup: ${post.frontmatter.title}`);
@@ -83,6 +96,7 @@ export const getPosts = async (): Promise<Post[]> => {
     return sortedPosts;
   } catch (error) {
     console.error('Error getting posts:', error);
+    console.error('Error details:', error instanceof Error ? error.message : String(error));
     return [];
   }
 };

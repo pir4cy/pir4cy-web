@@ -20,11 +20,20 @@ export default defineConfig({
   build: {
     commonjsOptions: {
       include: [/gray-matter/, /node_modules/],
+      transformMixedEsModules: true,
     },
     rollupOptions: {
       input: {
         main: './index.html',
       },
+      output: {
+        manualChunks: {
+          'gray-matter': ['gray-matter'],
+          'buffer': ['buffer'],
+        },
+      },
     },
+    target: 'esnext',
+    sourcemap: true,
   },
 });
