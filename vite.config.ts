@@ -17,6 +17,7 @@ export default defineConfig({
   optimizeDeps: {
     include: ['gray-matter', 'buffer'],
   },
+  assetsInclude: ['**/*.md'],
   build: {
     commonjsOptions: {
       include: [/gray-matter/, /node_modules/],

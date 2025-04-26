@@ -8,18 +8,17 @@ import { Buffer } from 'buffer';
 // Import all markdown files from both blog and htb directories
 const blogPosts = import.meta.glob('../content/blog/*.md', { 
   eager: true,
-  as: 'string',
-}) as Record<string, { default: string }>;
+  as: 'raw',
+}) as Record<string, string>;
 
 const htbPosts = import.meta.glob('../content/htb/*.md', {
   eager: true,
-  as: 'string',
-}) as Record<string, { default: string }>;
+  as: 'raw',
+}) as Record<string, string>;
 
-function parsePost(path: string, rawContent: { default: string }): Post | null {
+function parsePost(path: string, content: string): Post | null {
   try {
     console.log(`Processing post: ${path}`);
-    const content = rawContent.default;
     console.log(`Content length: ${content.length}`);
     console.log(`Content preview: ${content.slice(0, 100)}`);
     
@@ -57,11 +56,7 @@ function parsePost(path: string, rawContent: { default: string }): Post | null {
   } catch (error) {
     console.error(`Error processing post ${path}:`, error);
     console.error('Error details:', error instanceof Error ? error.message : String(error));
-    if (typeof rawContent.default === 'string') {
-      console.error('Content preview:', rawContent.default.slice(0, 100));
-    } else {
-      console.error('Content type:', typeof rawContent.default);
-    }
+    console.error('Content preview:', content ? content.slice(0, 100) : 'No content');
     return null;
   }
 }
