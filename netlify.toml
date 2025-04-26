@@ -6,10 +6,18 @@
   NODE_VERSION = "20"
   VITE_CJS_IGNORE_WARNING = "true"
 
+[[plugins]]
+package = "@netlify/plugin-nextjs"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[headers]]
+  for = "/*.md"
+    [headers.values]
+    Content-Type = "text/markdown"
 
 [[headers]]
   for = "/*"

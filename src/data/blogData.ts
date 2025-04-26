@@ -8,17 +8,20 @@ import { Buffer } from 'buffer';
 // Import all markdown files from both blog and htb directories
 const blogPosts = import.meta.glob('../content/blog/*.md', { 
   eager: true,
-  as: 'raw',
+  query: '?raw',
 }) as Record<string, string>;
 
 const htbPosts = import.meta.glob('../content/htb/*.md', {
   eager: true,
-  as: 'raw',
+  query: '?raw',
 }) as Record<string, string>;
 
 function parsePost(path: string, content: string): Post | null {
   try {
     console.log(`Processing post: ${path}`);
+    console.log(`Content length: ${content.length}`);
+    console.log(`Content preview: ${content.slice(0, 100)}`);
+    
     const { data, content: markdownContent } = matter.default(content);
     
     // Create the slug from the filename
@@ -29,7 +32,8 @@ function parsePost(path: string, content: string): Post | null {
       contentLength: content.length,
       hasData: !!data,
       dataKeys: Object.keys(data),
-      markdownLength: markdownContent.length
+      markdownLength: markdownContent.length,
+      frontmatter: data
     });
     
     // Ensure all required fields are present
@@ -93,6 +97,9 @@ export const getPosts = async (): Promise<Post[]> => {
     );
     
     console.log(`Total posts processed: ${sortedPosts.length}`);
+    if (sortedPosts.length === 0) {
+      console.warn('No posts were processed. This might indicate an issue with loading markdown files.');
+    }
     return sortedPosts;
   } catch (error) {
     console.error('Error getting posts:', error);

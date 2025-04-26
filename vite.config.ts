@@ -31,9 +31,19 @@ export default defineConfig({
           'gray-matter': ['gray-matter'],
           'buffer': ['buffer'],
         },
+        assetFileNames: (assetInfo) => {
+          const name = assetInfo.name || '';
+          if (name.endsWith('.md')) {
+            // Keep markdown files in a content directory
+            return 'content/[name][extname]';
+          }
+          return 'assets/[name]-[hash][extname]';
+        },
       },
     },
     target: 'esnext',
     sourcemap: true,
+    assetsInlineLimit: 0, // Don't inline any assets
+    copyPublicDir: true,
   },
 });

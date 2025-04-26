@@ -25,6 +25,7 @@
     "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^5.10.7",
     "@types/node": "^20.11.24",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
