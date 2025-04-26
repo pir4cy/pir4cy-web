@@ -6,9 +6,6 @@
   NODE_VERSION = "20"
   VITE_CJS_IGNORE_WARNING = "true"
 
-[[plugins]]
-package = "@netlify/plugin-nextjs"
-
 [[redirects]]
   from = "/*"
   to = "/index.html"
@@ -18,8 +15,10 @@ package = "@netlify/plugin-nextjs"
   for = "/*.md"
     [headers.values]
     Content-Type = "text/markdown"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
   for = "/*"
     [headers.values]
-    Access-Control-Allow-Origin = "*" 
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=0, must-revalidate" 
