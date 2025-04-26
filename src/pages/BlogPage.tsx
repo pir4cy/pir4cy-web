@@ -1,38 +1,75 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import SEO from '../components/SEO';
 import PageHeader from '../components/ui/PageHeader';
 import BlogCard from '../components/blog/BlogCard';
-import { getAllPosts } from '../utils/blogUtils';
+import { getAllPosts, searchPosts } from '../utils/blogUtils';
+import { Post } from '../types/blog';
 
 const BlogPage: React.FC = () => {
-  const allPosts = getAllPosts();
+  const [posts, setPosts] = useState<Post[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  // Fetch all posts on component mount
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        setIsLoading(true);
+        console.log('Fetching blog posts...');
+        const allPosts = await getAllPosts();
+        console.log(`Fetched ${allPosts.length} posts successfully`);
+        setPosts(allPosts);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching posts:', err);
+        setError('Failed to load blog posts. Please try again later.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchPosts();
+  }, []);
   
   // Extract all unique tags from posts
   const allTags = useMemo(() => {
-    const tagsSet = new Set<string>();
-    allPosts.forEach(post => {
-      post.frontmatter.tags?.forEach(tag => {
-        tagsSet.add(tag);
+    try {
+      const tagsSet = new Set<string>();
+      posts.forEach(post => {
+        if (post.frontmatter.tags && Array.isArray(post.frontmatter.tags)) {
+          post.frontmatter.tags.forEach(tag => {
+            tagsSet.add(tag);
+          });
+        }
       });
-    });
-    return Array.from(tagsSet).sort();
-  }, [allPosts]);
+      return Array.from(tagsSet).sort();
+    } catch (err) {
+      console.error('Error extracting tags:', err);
+      return [];
+    }
+  }, [posts]);
   
   // Filter posts based on search query and selected tag
   const filteredPosts = useMemo(() => {
-    return allPosts.filter(post => {
-      const matchesSearch = searchQuery === '' || 
-        post.frontmatter.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.frontmatter.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      const matchesTag = selectedTag === null || 
-        post.frontmatter.tags?.includes(selectedTag);
-      
-      return matchesSearch && matchesTag;
-    });
-  }, [allPosts, searchQuery, selectedTag]);
+    try {
+      return posts.filter(post => {
+        const matchesSearch = searchQuery === '' || 
+          (post.frontmatter.title && post.frontmatter.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (post.frontmatter.excerpt && post.frontmatter.excerpt.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (post.content && post.content.toLowerCase().includes(searchQuery.toLowerCase()));
+        
+        const matchesTag = selectedTag === null || 
+          (post.frontmatter.tags && post.frontmatter.tags.includes(selectedTag));
+        
+        return matchesSearch && matchesTag;
+      });
+    } catch (err) {
+      console.error('Error filtering posts:', err);
+      return [];
+    }
+  }, [posts, searchQuery, selectedTag]);
   
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -51,13 +88,13 @@ const BlogPage: React.FC = () => {
     <>
       <SEO 
         title="Blog" 
-        description="Thoughts, tutorials, and insights on software engineering, cybersecurity, and technology."
+        description="Thoughts, tutorials, and insights on software engineering, cybersecurity, and technology. Including HTB writeups."
         canonical="/blog"
       />
       
       <PageHeader 
         title="Blog" 
-        description="Thoughts, tutorials, and insights on software engineering, cybersecurity, and technology."
+        description="Thoughts, tutorials, and insights on software engineering, cybersecurity, and technology. Including HTB writeups."
       />
       
       <section className="py-12">
@@ -103,25 +140,50 @@ const BlogPage: React.FC = () => {
             </div>
           </div>
           
+          {/* Loading state */}
+          {isLoading && (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500 mx-auto"></div>
+              <p className="text-dark-300 mt-4">Loading blog posts...</p>
+            </div>
+          )}
+          
+          {/* Error state */}
+          {error && (
+            <div className="text-center py-12">
+              <p className="text-red-500 mb-4">{error}</p>
+              <button 
+                onClick={() => window.location.reload()} 
+                className="btn-secondary"
+              >
+                Try Again
+              </button>
+            </div>
+          )}
+          
           {/* Results count */}
-          <div className="mb-6">
-            <p className="text-dark-400">
-              {filteredPosts.length === 0 
-                ? 'No articles found' 
-                : `Showing ${filteredPosts.length} article${filteredPosts.length === 1 ? '' : 's'}`
-              }
-            </p>
-          </div>
+          {!isLoading && !error && (
+            <div className="mb-6">
+              <p className="text-dark-400">
+                {filteredPosts.length === 0 
+                  ? 'No articles found' 
+                  : `Showing ${filteredPosts.length} article${filteredPosts.length === 1 ? '' : 's'}`
+                }
+              </p>
+            </div>
+          )}
           
           {/* Blog posts grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPosts.map(post => (
-              <BlogCard key={post.slug} post={post} />
-            ))}
-          </div>
+          {!isLoading && !error && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredPosts.map(post => (
+                <BlogCard key={post.slug} post={post} />
+              ))}
+            </div>
+          )}
           
           {/* Empty state */}
-          {filteredPosts.length === 0 && (
+          {!isLoading && !error && filteredPosts.length === 0 && (
             <div className="text-center py-12">
               <h3 className="text-xl font-semibold text-white mb-2">No articles found</h3>
               <p className="text-dark-400 mb-6">

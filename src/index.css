@@ -8,11 +8,11 @@
 
 @layer base {
   html {
-    @apply bg-dark-950 text-dark-100 font-sans;
+    @apply bg-dark-950 text-dark-100 font-sans min-h-screen;
   }
 
   body {
-    @apply antialiased min-h-screen;
+    @apply antialiased min-h-screen bg-dark-950;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -98,14 +98,13 @@
   }
 
   .duotone-icon {
-    @apply text-primary-500;
+    @apply text-dark-300;
   }
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  @apply w-2;
 }
 
 ::-webkit-scrollbar-track {
@@ -113,7 +112,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-dark-700 rounded-full;
+  @apply bg-dark-700 rounded-full hover:bg-dark-600;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -122,7 +121,7 @@
 
 /* Code highlighting styles */
 pre {
-  @apply bg-dark-900 border border-dark-700 rounded-xl p-4 overflow-x-auto;
+  @apply bg-dark-900 p-4 rounded-lg overflow-x-auto;
 }
 
 /* Hand-drawn underline */
@@ -132,26 +131,59 @@ pre {
 
 .hand-drawn-underline:after {
   content: '';
-  @apply absolute left-0 bottom-0 w-full h-[3px] bg-accent-500 opacity-70;
-  mask-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' viewBox='0 0 100 6' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cpath d='M0,3 C15,1 35,5 50,3 C65,1 85,5 100,3 L100,6 L0,6 L0,3 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  @apply absolute left-0 right-0 bottom-0 h-3 bg-primary-500/20 -z-10;
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    100% 100%,
+    95% 100%,
+    90% 0%,
+    85% 100%,
+    80% 0%,
+    75% 100%,
+    70% 0%,
+    65% 100%,
+    60% 0%,
+    55% 100%,
+    50% 0%,
+    45% 100%,
+    40% 0%,
+    35% 100%,
+    30% 0%,
+    25% 100%,
+    20% 0%,
+    15% 100%,
+    10% 0%,
+    5% 100%,
+    0% 0%
+  );
 }
 
 /* Animation utilities */
 .animate-fade-in {
-  animation: fadeIn 0.5s ease-in-out forwards;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 .animate-slide-up {
-  animation: slideUp 0.5s ease-out forwards;
+  animation: slideUp 0.5s ease-in-out;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

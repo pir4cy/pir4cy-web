@@ -1,4 +1,5 @@
-import React from 'react';
+import * as React from 'react';
+import type { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { Clock, Calendar } from 'lucide-react';
 import { Post } from '../../types/blog';
@@ -8,9 +9,23 @@ interface BlogCardProps {
   featured?: boolean;
 }
 
-const BlogCard: React.FC<BlogCardProps> = ({ post, featured = false }) => {
+type ExtendedFrontmatter = Post['frontmatter'] & {
+  os?: string;
+  logos?: {
+    os?: string;
+  };
+};
+
+type ExtendedPost = {
+  slug: string;
+  frontmatter: ExtendedFrontmatter;
+};
+
+const BlogCard: FC<BlogCardProps> = ({ post, featured = false }) => {
   const { slug, frontmatter } = post;
-  const { title, date, excerpt, readingTime, tags } = frontmatter;
+  const { title, date, excerpt, readingTime, tags, coverImage } = frontmatter;
+  const os = (frontmatter as ExtendedFrontmatter).os;
+  const logos = (frontmatter as ExtendedFrontmatter).logos;
 
   const formattedDate = new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -19,7 +34,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ post, featured = false }) => {
   });
 
   return (
-    <article 
+    <div 
       className={`card group hover:border-primary-700 ${
         featured 
           ? 'brutalist-box mb-8' 
@@ -27,6 +42,27 @@ const BlogCard: React.FC<BlogCardProps> = ({ post, featured = false }) => {
       }`}
     >
       <Link to={`/blog/${slug}`} className="block h-full">
+        {/* Cover Image */}
+        {coverImage && (
+          <div className="relative w-full aspect-video mb-4 overflow-hidden rounded-lg">
+            <img 
+              src={coverImage} 
+              alt={title} 
+              className="w-full h-full object-cover"
+            />
+            {/* OS Logo */}
+            {logos?.os && (
+              <div className="absolute top-2 right-2 bg-dark-900/80 p-2 rounded-lg">
+                <img 
+                  src={logos.os} 
+                  alt={os} 
+                  className="w-6 h-6"
+                />
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="space-y-3">
           {tags && tags.length > 0 && (
             <div className="flex flex-wrap gap-2">
@@ -66,7 +102,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ post, featured = false }) => {
           </div>
         </div>
       </Link>
-    </article>
+    </div>
   );
 };
 

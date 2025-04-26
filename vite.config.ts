@@ -1,10 +1,33 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  assetsInclude: ['**/*.md'],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './src'),
+    },
+  },
+  define: {
+    'process.env': {},
+    'Buffer': ['buffer', 'Buffer'],
+  },
   optimizeDeps: {
-    exclude: ['lucide-react'],
+    include: ['buffer'],
+  },
+  build: {
+    rollupOptions: {
+      input: {
+        main: './index.html',
+      },
+    },
+  },
+  server: {
+    port: 5173,
+    host: true,
+    strictPort: true,
   },
 });
