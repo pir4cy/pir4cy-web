@@ -23,7 +23,17 @@ export default defineConfig({
       input: {
         main: './index.html',
       },
+      output: {
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name?.endsWith('.md')) {
+            return 'assets/content/[name][extname]';
+          }
+          return 'assets/[name]-[hash][extname]';
+        },
+      },
     },
+    assetsInlineLimit: 0, // Don't inline any assets
+    copyPublicDir: true,
   },
   server: {
     port: 5173,
