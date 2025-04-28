@@ -31,18 +31,18 @@ const AboutPage: React.FC = () => {
                   <h2 className="text-3xl font-bold text-white mb-6">Who I Am</h2>
                   <div className="prose prose-invert text-lg">
                     <p>
-                      I'm a software engineer, security researcher, and technology enthusiast with a 
-                      passion for building elegant solutions to complex problems. My journey in technology 
-                      began at an early age when I disassembled my first computer to understand how it worked.
+                      I'm a cybersecurity engineer with a passion for building secure solutions and protecting digital assets. 
+                      My journey in technology began with a Bachelor's in Computer Science, which laid the foundation for my 
+                      career in cybersecurity.
                     </p>
                     <p>
-                      Since then, I've developed expertise across the full technology stack, from low-level 
-                      systems programming to modern web development. I'm particularly interested in the 
-                      intersection of performance, security, and usability.
+                      Currently working as a Concierge Security Engineer at Arctic Wolf, I combine my security expertise with 
+                      development skills to create robust security solutions. My experience spans from security analysis to 
+                      advanced threat detection and incident response.
                     </p>
                     <p>
-                      When I'm not coding, you can find me exploring cybersecurity challenges, contributing 
-                      to open-source projects, or researching emerging technologies.
+                      When I'm not defending against cyber threats, you can find me participating in CTF competitions, 
+                      contributing to security tools, or exploring new technologies in the cybersecurity space.
                     </p>
                   </div>
                 </motion.div>
@@ -56,45 +56,45 @@ const AboutPage: React.FC = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="brutalist-box bg-dark-800">
                       <Code className="h-8 w-8 text-primary-500 mb-4" />
-                      <h3 className="text-xl font-bold text-white mb-3">Languages</h3>
+                      <h3 className="text-xl font-bold text-white mb-3">Programming</h3>
                       <ul className="space-y-2 text-dark-300">
-                        <li>Rust, Go, C/C++</li>
-                        <li>JavaScript/TypeScript</li>
-                        <li>Python, Bash</li>
-                        <li>SQL, GraphQL</li>
+                        <li>Python, JavaScript</li>
+                        <li>Bash, Shell Scripting</li>
+                        <li>Web Development</li>
+                        <li>Automation & Tooling</li>
                       </ul>
                     </div>
                     
                     <div className="brutalist-box bg-dark-800">
                       <Server className="h-8 w-8 text-primary-500 mb-4" />
-                      <h3 className="text-xl font-bold text-white mb-3">Technologies</h3>
+                      <h3 className="text-xl font-bold text-white mb-3">Security Tools</h3>
                       <ul className="space-y-2 text-dark-300">
-                        <li>Linux, Docker, Kubernetes</li>
-                        <li>React, Next.js, Node.js</li>
-                        <li>AWS, GCP, Azure</li>
-                        <li>CI/CD, Git, GitHub Actions</li>
+                        <li>MDR Solutions</li>
+                        <li>SIEM Platforms</li>
+                        <li>Docker, Linux</li>
+                        <li>Security Frameworks</li>
                       </ul>
                     </div>
                     
                     <div className="brutalist-box bg-dark-800">
                       <Database className="h-8 w-8 text-primary-500 mb-4" />
-                      <h3 className="text-xl font-bold text-white mb-3">Data & Infrastructure</h3>
+                      <h3 className="text-xl font-bold text-white mb-3">Security Operations</h3>
                       <ul className="space-y-2 text-dark-300">
-                        <li>PostgreSQL, MongoDB, Redis</li>
-                        <li>Elasticsearch, Kafka</li>
-                        <li>Data modeling & optimization</li>
-                        <li>Infrastructure as Code</li>
+                        <li>Incident Response</li>
+                        <li>Threat Analysis</li>
+                        <li>Malware Analysis</li>
+                        <li>Security Monitoring</li>
                       </ul>
                     </div>
                     
                     <div className="brutalist-box bg-dark-800">
                       <ShieldCheck className="h-8 w-8 text-primary-500 mb-4" />
-                      <h3 className="text-xl font-bold text-white mb-3">Security</h3>
+                      <h3 className="text-xl font-bold text-white mb-3">Certifications</h3>
                       <ul className="space-y-2 text-dark-300">
-                        <li>Penetration testing</li>
-                        <li>Secure coding practices</li>
-                        <li>Network security</li>
-                        <li>Security auditing</li>
+                        <li>PNPT Certified</li>
+                        <li>Project Management</li>
+                        <li>Computer Application Security</li>
+                        <li>CTF Achievements</li>
                       </ul>
                     </div>
                   </div>
@@ -108,23 +108,23 @@ const AboutPage: React.FC = () => {
                   <h2 className="text-3xl font-bold text-white mb-6">My Approach</h2>
                   <div className="prose prose-invert text-lg">
                     <p>
-                      I believe in writing clean, maintainable code that solves real problems. My approach is centered on:
+                      I believe in a comprehensive approach to cybersecurity that combines technical expertise with practical solutions. My methodology is centered on:
                     </p>
                     <ul>
                       <li>
-                        <strong>Deep understanding:</strong> Taking the time to fully comprehend a problem before implementing a solution.
+                        <strong>Proactive Defense:</strong> Identifying and mitigating security risks before they become incidents.
                       </li>
                       <li>
-                        <strong>Simplicity:</strong> Finding the most elegant solution rather than the most complex.
+                        <strong>Automation:</strong> Building efficient tools and scripts to streamline security operations.
                       </li>
                       <li>
-                        <strong>Performance:</strong> Optimizing for efficiency without sacrificing readability.
+                        <strong>Continuous Learning:</strong> Staying current with emerging threats and security technologies.
                       </li>
                       <li>
-                        <strong>Security:</strong> Building with security in mind from the ground up.
+                        <strong>Collaboration:</strong> Working with teams to implement effective security strategies.
                       </li>
                       <li>
-                        <strong>Continuous learning:</strong> Staying current with best practices and emerging technologies.
+                        <strong>Innovation:</strong> Developing creative solutions to complex security challenges.
                       </li>
                     </ul>
                   </div>
