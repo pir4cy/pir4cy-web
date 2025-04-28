@@ -6,6 +6,7 @@ export interface Frontmatter {
   tags?: string[];
   coverImage?: string;
   author?: string;
+  draft?: boolean;
 }
 
 export interface Post {

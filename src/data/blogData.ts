@@ -28,6 +28,12 @@ function parsePost(path: string, content: string): Post | null {
     const buffer = Buffer.from(content);
     const { data, content: markdownContent } = matter(buffer);
     
+    // Skip draft posts
+    if (data.draft === true) {
+      console.log(`Skipping draft post: ${path}`);
+      return null;
+    }
+    
     // Create the slug from the filename
     const slug = path.split('/').pop()?.replace('.md', '') || '';
     
@@ -48,7 +54,8 @@ function parsePost(path: string, content: string): Post | null {
       readingTime: data.readingTime || 1,
       tags: Array.isArray(data.tags) ? [...new Set(data.tags)] : ['Untagged'],
       author: data.author || 'Unknown',
-      coverImage: data.coverImage || '/images/default-cover.jpg'
+      coverImage: data.coverImage || '/images/default-cover.jpg',
+      draft: data.draft || false
     };
 
     console.log(`Successfully parsed post: ${frontmatter.title}`);
@@ -115,5 +122,5 @@ export const getPosts = async (): Promise<Post[]> => {
 // For backward compatibility
 export const posts = Object.entries(blogPosts)
   .map(([path, content]) => parsePost(path, content))
-  .filter((post): post is Post => post !== null)
+  .filter((post): post is Post => post !== null && !post.frontmatter.draft)
   .sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());

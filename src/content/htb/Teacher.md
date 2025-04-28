@@ -1,9 +1,7 @@
 ---
 title: 'HTB: Teacher'
 date: '2025-04-26'
-excerpt: 'In this directory the `courses` from the work folder are being backed up.  
-So to get `root.txt`, we attempt to create a symlink to the `/root/` directory.  
-![Exploiting Backup](/images/htb/machines/Teacher/root.png "Root.txt Gained")'
+excerpt: 'Teacher is a medium difficulty machine, which teaches techniques for identifying and exploiting logical flaws and vulnerabilities of outdated modules within popular CMS (in this instance Moodle), enumeration of sensitive information within the backend database and leverage misconfigurations on the operating system, which lead to a complete compromise of a system.'
 readingTime: 3
 tags: ['HTB', 'Writeup', 'HTB', 'Writeup', 'Easy', 'Medium', 'Linux', 'Web']
 author: 'pir4cy'

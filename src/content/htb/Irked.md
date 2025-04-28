@@ -1,7 +1,7 @@
 ---
 title: 'HTB: Irked'
 date: '2025-04-26'
-excerpt: ''
+excerpt: 'Irked is a pretty simple and straight-forward box which requires basic enumeration skills. It shows the need to scan all ports on machines and to investigate any out of the place binaries found while enumerating a system.'
 readingTime: 1
 tags: ['HTB', 'Writeup', 'HTB', 'Writeup', 'Easy', 'Linux']
 author: 'pir4cy'

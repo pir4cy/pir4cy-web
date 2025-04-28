@@ -1,16 +1,7 @@
 ---
 title: 'HTB: Curling'
 date: '2025-04-26'
-excerpt: 'Step 1: Create `sudoers.txt` on your local machine, with the following text  
-    `floris ALL = (ALL:ALL) ALL`
-Step 2: Create listener on your local machine using python  
-    `python -m SimpleHTTPServer`
-Step 3: Edit the input file, like so  
-    ![input File root](/images/htb/machines/Curling/inputRoot2.png "Input File for Way 2")
-Step 4: Wait for the cronjob to execute, which will download `sudoers.txt` to `/etc/sudoers`
-    ![sudoers updated](/images/htb/machines/Curling/sudoers.png "Sudoers Updated")
-Step 5: Run `sudo su`
-    ![Root Gained](/images/htb/machines/Curling/root2.png "Way 2 of getting root")'
+excerpt: 'Curling is an Easy difficulty Linux box which requires a fair amount of enumeration. The password is saved in a file on the web root. The username can be download through a post on the CMS which allows a login. Modifying the php template gives a shell. Finding a hex dump and reversing it gives a user shell. On enumerating running processes a cron is discovered which can be exploited for root.'
 readingTime: 3
 tags: ['HTB', 'Writeup', 'HTB', 'Writeup', 'Easy', 'Linux', 'Web']
 author: 'pir4cy'

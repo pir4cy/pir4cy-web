@@ -1,7 +1,7 @@
 ---
 title: 'HTB: October'
 date: '2025-04-26'
-excerpt: '![Pwnage](/images/htb/machines/October/owned.png "Rooted")'
+excerpt: 'October is a fairly easy machine to gain an initial foothold on, however it presents a fair challenge for users who have never worked with NX/DEP or ASLR while exploiting buffer overflows.'
 readingTime: 3
 tags: ['HTB', 'Writeup', 'HTB', 'Writeup', 'Medium', 'Linux', 'Web', 'Pwn']
 author: 'pir4cy'

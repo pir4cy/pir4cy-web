@@ -1,7 +1,7 @@
 ---
 title: 'HTB: Help'
 date: '2025-04-26'
-excerpt: 'Thank you for reading!'
+excerpt: 'Help is an Easy Linux box which has a GraphQL endpoint which can be enumerated get a set of credentials for a HelpDesk software. The software is vulnerable to blind SQL injection which can be exploited to get a password for SSH Login. Alternatively an unauthenticated arbitrary file upload can be exploited to get RCE. Then the kernel is found to be vulnerable and can be exploited to get a root shell.'
 readingTime: 3
 tags: ['HTB', 'Writeup', 'HTB', 'Writeup', 'Easy', 'Medium', 'Linux']
 author: 'pir4cy'

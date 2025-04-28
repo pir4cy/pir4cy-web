@@ -1,0 +1,21 @@
+{
+  "workspace:close-window": [],
+  "templater-obsidian:templates/blog-template.md": [
+    {
+      "modifiers": [
+        "Alt",
+        "Shift"
+      ],
+      "key": "B"
+    }
+  ],
+  "templater-obsidian:templates/writeup-template.md": [
+    {
+      "modifiers": [
+        "Alt",
+        "Shift"
+      ],
+      "key": "W"
+    }
+  ]
+}
