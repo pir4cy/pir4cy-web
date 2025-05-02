@@ -7,12 +7,6 @@
   VITE_CJS_IGNORE_WARNING = "true"
 
 [[redirects]]
-  from = "/contact"
-  to = "/contact"
-  status = 200
-  force = true
-
-[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
