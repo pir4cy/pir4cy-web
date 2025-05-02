@@ -1,10 +1,42 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Github, X, Linkedin, Send } from 'lucide-react';
+import { Mail, MapPin, Github, X, Linkedin, Send, CheckCircle } from 'lucide-react';
 import SEO from '../components/SEO';
 import PageHeader from '../components/ui/PageHeader';
 
+const THANK_YOU_TIMEOUT = 5000;
+
 const ContactPage: React.FC = () => {
+  const [showThankYou, setShowThankYou] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const navigate = useNavigate();
+
+  // Show thank you modal on form submit
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setShowThankYou(true);
+    // Start redirect timer
+    timeoutRef.current = setTimeout(() => {
+      navigate('/');
+    }, THANK_YOU_TIMEOUT);
+    // Actually submit the form to Netlify
+    e.currentTarget.submit();
+  };
+
+  // Cancel redirect if user interacts
+  const handleUserAction = (path: string) => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setShowThankYou(false);
+    navigate(path);
+  };
+
+  // If user closes modal, cancel redirect
+  const handleCloseModal = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setShowThankYou(false);
+  };
+
   return (
     <>
       <SEO 
@@ -45,6 +77,7 @@ const ContactPage: React.FC = () => {
                       data-netlify="true"
                       data-netlify-honeypot="bot-field"
                       className="space-y-6"
+                      onSubmit={handleFormSubmit}
                     >
                       <input type="hidden" name="form-name" value="contact" />
                       <p className="hidden">
@@ -200,6 +233,48 @@ const ContactPage: React.FC = () => {
           </div>
         </div>
       </section>
+      {/* Thank You Modal */}
+      {showThankYou && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            className="bg-dark-900 p-8 rounded-2xl shadow-2xl max-w-md w-full text-center border-4 border-primary-600"
+          >
+            <CheckCircle className="mx-auto mb-4 text-green-500" size={48} />
+            <h2 className="text-2xl font-bold text-white mb-2">Thank you for reaching out!</h2>
+            <p className="text-dark-200 mb-6">Your message has been sent. I'll get back to you as soon as possible.</p>
+            <div className="flex flex-col gap-3 mb-4">
+              <button
+                className="btn-primary w-full"
+                onClick={() => handleUserAction('/blog')}
+              >
+                Go to Blog
+              </button>
+              <button
+                className="btn-secondary w-full"
+                onClick={() => handleUserAction('/')}
+              >
+                Go to Homepage
+              </button>
+              <button
+                className="btn-accent w-full"
+                onClick={() => handleUserAction('/projects')}
+              >
+                View Projects
+              </button>
+            </div>
+            <button
+              className="text-dark-400 hover:text-white text-xs mt-2"
+              onClick={handleCloseModal}
+            >
+              Close
+            </button>
+            <p className="text-xs text-dark-500 mt-4">You will be redirected to the homepage in 5 seconds if no action is taken.</p>
+          </motion.div>
+        </div>
+      )}
     </>
   );
 };
