@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Ignore draft blog posts
+src/content/blog/*draft*.md
+src/content/htb/*draft*.md
