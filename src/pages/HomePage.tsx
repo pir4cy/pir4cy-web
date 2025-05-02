@@ -83,17 +83,18 @@ const HomePage: React.FC = () => {
               className="font-grotesk text-5xl md:text-6xl font-bold text-white mb-6"
               variants={itemVariants}
             >
-              Engineer. Hacker. Builder. 
+              Hacker. Builder. 
               <br />
-              <span className="text-primary-500">Always learning.</span>
+              <span className="text-primary-500">Always curious.</span>
             </motion.h1>
             
             <motion.p 
               className="text-xl md:text-2xl text-dark-300 mb-8"
               variants={itemVariants}
             >
-              I craft secure, efficient, and elegant solutions to complex technical problems. 
-              From low-level systems to cutting-edge web applications.
+              I spend my days digging into offensive security, writing code, and exploring how systems behave 
+              when pushed to their limits. Whether it's building tools, chasing bugs, or automating something 
+              annoying, I'm always hacking on something.
             </motion.p>
             
             <motion.div 
@@ -101,10 +102,13 @@ const HomePage: React.FC = () => {
               variants={itemVariants}
             >
               <Link to="/projects" className="btn-primary">
-                View Projects
+                See What I've Built
+              </Link>
+              <Link to="/blog" className="btn-secondary">
+                Read My Blog
               </Link>
               <Link to="/contact" className="btn-secondary">
-                Get in Touch
+                Let's Chat
               </Link>
             </motion.div>
           </motion.div>
@@ -135,9 +139,9 @@ const HomePage: React.FC = () => {
             
             <div className="brutalist-box hover:border-primary-600 transition-colors duration-300">
               <Database className="h-10 w-10 text-primary-500 mb-4" />
-              <h3 className="text-xl font-bold text-white mb-3">Penetration Testing</h3>
+              <h3 className="text-xl font-bold text-white mb-3">Offensive Security</h3>
               <p className="text-dark-300">
-                Certified PNPT with expertise in web application security, vulnerability assessment, and CTF competitions.
+                Experienced in Active Directory, Windows, Linux, and Web application security. Learning through experience.
               </p>
             </div>
             

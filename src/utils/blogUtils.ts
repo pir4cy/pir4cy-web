@@ -12,20 +12,9 @@ export const getAllPosts = async (): Promise<Post[]> => {
 // Function to get a post by slug
 export const getPostBySlug = async (slug: string): Promise<Post | null> => {
   try {
-    console.log(`Getting post by slug: ${slug}`);
     const posts = await getPosts();
-    console.log(`Found ${posts.length} total posts`);
-    
-    const post = posts.find(p => p.slug === slug);
-    if (!post) {
-      console.error(`No post found with slug: ${slug}`);
-      return null;
-    }
-    
-    console.log(`Found post: ${post.frontmatter.title}`);
-    return post;
+    return posts.find(p => p.slug === slug) || null;
   } catch (err) {
-    console.error('Error getting post by slug:', err);
     return null;
   }
 };
@@ -73,15 +62,13 @@ export const searchPosts = async (query: string): Promise<Post[]> => {
   );
 };
 
+// Function to get related posts
 export const getRelatedPosts = async (currentSlug: string, limit: number = 3): Promise<Post[]> => {
   try {
-    console.log(`Getting related posts for: ${currentSlug}`);
     const posts = await getPosts();
-    console.log(`Found ${posts.length} total posts`);
     
     const currentPost = posts.find(p => p.slug === currentSlug);
     if (!currentPost) {
-      console.error(`Current post not found: ${currentSlug}`);
       return [];
     }
     
@@ -105,10 +92,8 @@ export const getRelatedPosts = async (currentSlug: string, limit: number = 3): P
       })
       .slice(0, limit);
     
-    console.log(`Found ${relatedPosts.length} related posts`);
     return relatedPosts;
   } catch (err) {
-    console.error('Error getting related posts:', err);
     return [];
   }
 };

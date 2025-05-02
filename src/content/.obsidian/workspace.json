@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "htb/Beep.md",
+                "file": "blog/CnC - Episode 1.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Beep"
+              "title": "CnC - Episode 1"
             }
           }
         ]
@@ -172,6 +172,9 @@
   },
   "active": "40277675c096838a",
   "lastOpenFiles": [
+    "templates/blog-template.md",
+    "blog/CnC - Episode 1.md",
+    "htb/Beep.md",
     "htb/Curling.md",
     "htb/Frolic.md",
     "htb/Irked.md",
@@ -180,10 +183,8 @@
     "htb/Teacher.md",
     "htb/Lame.md",
     "htb/October.md",
-    "htb/Beep.md",
     "Untitled.md",
     "templates/writeup-template.md",
-    "templates/blog-template.md",
     "templates",
     "blog/blog-template.md",
     "htb/writeup-template.md"

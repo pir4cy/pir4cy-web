@@ -1,11 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Code, Database, Server, ShieldCheck } from 'lucide-react';
+import { Code, Database, Server, ShieldCheck, Award } from 'lucide-react';
 import SEO from '../components/SEO';
 import PageHeader from '../components/ui/PageHeader';
+import ScrollingMarquee from '../components/ui/ScrollingMarquee';
+import { achievements, getAchievementsByCategory } from '../data/achievementsData';
+import { getRecentPosts } from '../utils/blogUtils';
+import { Post } from '../types/blog';
 
 const AboutPage: React.FC = () => {
+  // Get achievements by category
+  const certifications = getAchievementsByCategory('certification');
+  const badges = getAchievementsByCategory('badge');
+  const stats = getAchievementsByCategory('stat');
+  
+  // State for recent blog posts
+  const [recentPosts, setRecentPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  // Fetch recent blog posts
+  useEffect(() => {
+    const fetchRecentPosts = async () => {
+      try {
+        setIsLoading(true);
+        const posts = await getRecentPosts(2); // Get 2 most recent posts
+        setRecentPosts(posts);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching recent posts:', err);
+        setError('Failed to load recent blog posts');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchRecentPosts();
+  }, []);
+
   return (
     <>
       <SEO 
@@ -31,103 +64,101 @@ const AboutPage: React.FC = () => {
                   <h2 className="text-3xl font-bold text-white mb-6">Who I Am</h2>
                   <div className="prose prose-invert text-lg">
                     <p>
-                      I'm a cybersecurity engineer with a passion for building secure solutions and protecting digital assets. 
-                      My journey in technology began with a Bachelor's in Computer Science, which laid the foundation for my 
-                      career in cybersecurity.
+                      First of all, thank you for taking the time to visit my website. I'm glad you're here.
+                      My name is Kshitij - known online as pir4cy. I'm a tech enthusiast specializing in cybersecurity.  
                     </p>
                     <p>
-                      Currently working as a Concierge Security Engineer at Arctic Wolf, I combine my security expertise with 
-                      development skills to create robust security solutions. My experience spans from security analysis to 
-                      advanced threat detection and incident response.
+                     I spend most of my time digging into offensive security, writing code, and exploring how systems behave 
+                     when pushed to their limits. I've got a background in computer science, but most of what I've learned has 
+                     come from CTFs, side projects, and just being relentlessly curious.
                     </p>
                     <p>
-                      When I'm not defending against cyber threats, you can find me participating in CTF competitions, 
-                      contributing to security tools, or exploring new technologies in the cybersecurity space.
+                     I like figuring out how things work and how to make them work better (or fail in interesting ways). 
+                     Whether it's building tools, chasing bugs, or automating something annoying, I'm always hacking on something.
                     </p>
                   </div>
                 </motion.div>
-                
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                  <h2 className="text-3xl font-bold text-white mb-6">Technical Skills</h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="brutalist-box bg-dark-800">
-                      <Code className="h-8 w-8 text-primary-500 mb-4" />
-                      <h3 className="text-xl font-bold text-white mb-3">Programming</h3>
-                      <ul className="space-y-2 text-dark-300">
-                        <li>Python, JavaScript</li>
-                        <li>Bash, Shell Scripting</li>
-                        <li>Web Development</li>
-                        <li>Automation & Tooling</li>
-                      </ul>
-                    </div>
-                    
-                    <div className="brutalist-box bg-dark-800">
-                      <Server className="h-8 w-8 text-primary-500 mb-4" />
-                      <h3 className="text-xl font-bold text-white mb-3">Security Tools</h3>
-                      <ul className="space-y-2 text-dark-300">
-                        <li>MDR Solutions</li>
-                        <li>SIEM Platforms</li>
-                        <li>Docker, Linux</li>
-                        <li>Security Frameworks</li>
-                      </ul>
-                    </div>
-                    
-                    <div className="brutalist-box bg-dark-800">
-                      <Database className="h-8 w-8 text-primary-500 mb-4" />
-                      <h3 className="text-xl font-bold text-white mb-3">Security Operations</h3>
-                      <ul className="space-y-2 text-dark-300">
-                        <li>Incident Response</li>
-                        <li>Threat Analysis</li>
-                        <li>Malware Analysis</li>
-                        <li>Security Monitoring</li>
-                      </ul>
-                    </div>
-                    
-                    <div className="brutalist-box bg-dark-800">
-                      <ShieldCheck className="h-8 w-8 text-primary-500 mb-4" />
-                      <h3 className="text-xl font-bold text-white mb-3">Certifications</h3>
-                      <ul className="space-y-2 text-dark-300">
-                        <li>PNPT Certified</li>
-                        <li>Project Management</li>
-                        <li>Computer Application Security</li>
-                        <li>CTF Achievements</li>
-                      </ul>
-                    </div>
-                  </div>
-                </motion.div>
-                
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.4 }}
                 >
-                  <h2 className="text-3xl font-bold text-white mb-6">My Approach</h2>
+                  <h2 className="text-3xl font-bold text-white mb-6">What This Website Is About</h2>
                   <div className="prose prose-invert text-lg">
                     <p>
-                      I believe in a comprehensive approach to cybersecurity that combines technical expertise with practical solutions. My methodology is centered on:
+                      I created this website as a place to share my thoughts, experiences, and learnings along my journey in cybersecurity and tech.
                     </p>
-                    <ul>
-                      <li>
-                        <strong>Proactive Defense:</strong> Identifying and mitigating security risks before they become incidents.
-                      </li>
-                      <li>
-                        <strong>Automation:</strong> Building efficient tools and scripts to streamline security operations.
-                      </li>
-                      <li>
-                        <strong>Continuous Learning:</strong> Staying current with emerging threats and security technologies.
-                      </li>
-                      <li>
-                        <strong>Collaboration:</strong> Working with teams to implement effective security strategies.
-                      </li>
-                      <li>
-                        <strong>Innovation:</strong> Developing creative solutions to complex security challenges.
-                      </li>
-                    </ul>
+                    <p>
+                      I like to tinker with technology and build things. Whether it's some automation to make my life easier or trying out a new tool that helps me in my workflows,
+                      I will share my experience with you. 
+                    </p>
                   </div>
+                </motion.div>
+
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <h2 className="text-3xl font-bold text-white mb-6">HR Speak</h2>
+                  <div className="space-y-8">
+                    {certifications.length > 0 && (
+                      <div>
+                        <h3 className="text-xl font-bold text-white mb-4 flex items-center">
+                          <Award className="h-5 w-5 mr-2 text-primary-500" />
+                          Certifications
+                        </h3>
+                        <ScrollingMarquee 
+                          items={certifications} 
+                          speed="medium" 
+                          direction="left" 
+                        />
+                      </div>
+                    )}
+                    
+                    {badges.length > 0 && (
+                      <div>
+                        <h3 className="text-xl font-bold text-white mb-4 flex items-center">
+                          <Award className="h-5 w-5 mr-2 text-primary-500" />
+                          Badges
+                        </h3>
+                        <ScrollingMarquee 
+                          items={badges} 
+                          speed="medium" 
+                          direction="right" 
+                        />
+                      </div>
+                    )}
+                    
+                    {stats.length > 0 && (
+                      <div>
+                        <h3 className="text-xl font-bold text-white mb-4 flex items-center">
+                          <Award className="h-5 w-5 mr-2 text-primary-500" />
+                          Stats
+                        </h3>
+                        <ScrollingMarquee 
+                          items={stats} 
+                          speed="slow" 
+                          direction="left" 
+                        />
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  className="text-sm text-dark-400 mt-8"
+                >
+                  <p>
+                    A resume and related links can be provided upon request, please visit{' '}
+                    <Link to="/contact" className="text-primary-500 hover:text-primary-400">
+                      the contact page
+                    </Link>
+                    .
+                  </p>
                 </motion.div>
               </div>
             </div>
@@ -157,30 +188,45 @@ const AboutPage: React.FC = () => {
                 >
                   <h3 className="text-xl font-bold text-white mb-4">Recent Blog Posts</h3>
                   <div className="space-y-4">
-                    <Link 
-                      to="/blog/zero-knowledge-proofs-explained" 
-                      className="block group"
-                    >
-                      <h4 className="text-white group-hover:text-primary-500 font-medium transition-colors">
-                        Zero Knowledge Proofs Explained Simply
-                      </h4>
-                      <p className="text-sm text-dark-400">Dec 10, 2023</p>
-                    </Link>
-                    <Link 
-                      to="/blog/quantum-computing-threat" 
-                      className="block group"
-                    >
-                      <h4 className="text-white group-hover:text-primary-500 font-medium transition-colors">
-                        The Quantum Computing Threat to Cryptography
-                      </h4>
-                      <p className="text-sm text-dark-400">Nov 5, 2023</p>
-                    </Link>
-                    <Link 
-                      to="/blog"
-                      className="text-primary-500 hover:text-primary-400 inline-flex items-center gap-1 mt-2 text-sm"
-                    >
-                      View all posts
-                    </Link>
+                    {isLoading ? (
+                      <div className="animate-pulse space-y-4">
+                        <div className="h-6 bg-dark-700 rounded w-3/4"></div>
+                        <div className="h-4 bg-dark-700 rounded w-1/4"></div>
+                        <div className="h-6 bg-dark-700 rounded w-3/4"></div>
+                        <div className="h-4 bg-dark-700 rounded w-1/4"></div>
+                      </div>
+                    ) : error ? (
+                      <p className="text-dark-400">Failed to load recent posts</p>
+                    ) : recentPosts.length > 0 ? (
+                      <>
+                        {recentPosts.map((post) => (
+                          <Link 
+                            key={post.slug}
+                            to={`/blog/${post.slug}`} 
+                            className="block group"
+                          >
+                            <h4 className="text-white group-hover:text-primary-500 font-medium transition-colors">
+                              {post.frontmatter.title}
+                            </h4>
+                            <p className="text-sm text-dark-400">
+                              {new Date(post.frontmatter.date).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric'
+                              })}
+                            </p>
+                          </Link>
+                        ))}
+                        <Link 
+                          to="/blog"
+                          className="text-primary-500 hover:text-primary-400 inline-flex items-center gap-1 mt-2 text-sm"
+                        >
+                          View all posts
+                        </Link>
+                      </>
+                    ) : (
+                      <p className="text-dark-400">No blog posts found</p>
+                    )}
                   </div>
                 </motion.div>
               </div>
