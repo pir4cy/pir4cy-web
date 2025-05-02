@@ -38,10 +38,10 @@ We often end up waiting to finish a certain goal before announcing it to the wor
 ### Why Read This?
 
 If you're:
-- Just starting out in tech/security
-- Looking for a more casual take on technical topics
-- Interested in seeing someone else's learning process
-- Bored and need something to read
+- Interested in reading about tech/security topics.
+- Looking for writeups to CTFs and challenges.
+- Interested in following along the learning process.
+- Bored and need something to read. 
 
 Then you might find something interesting here. I'll try to keep things light, but also make sure there's actual useful content mixed in with the jokes.
 
