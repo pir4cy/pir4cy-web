@@ -1,5 +1,5 @@
 ---
-title: ep01
+title: eps1.0_hellofriend.mov
 date: 2025-05-02
 excerpt: First Blog Post
 tags:
