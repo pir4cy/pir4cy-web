@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Send, CheckCircle } from 'lucide-react';
+import { Mail, Send, CheckCircle, Github, X, Linkedin } from 'lucide-react';
 import SEO from '../components/SEO';
 import PageHeader from '../components/ui/PageHeader';
 
@@ -146,6 +146,60 @@ const ContactPage: React.FC = () => {
                   </div>
                 </form>
               )}
+            </motion.div>
+
+            {/* Contact Info & Socials */}
+            <motion.div
+              className="brutalist-box mt-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <h3 className="text-xl font-bold text-white mb-6">Contact Information</h3>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <Mail className="h-5 w-5 text-primary-500 mt-0.5" />
+                  <div>
+                    <h4 className="text-white font-medium">Email</h4>
+                    <a 
+                      href="mailto:pir4cy@duck.com"
+                      className="text-dark-300 hover:text-white transition-colors"
+                    >
+                      pir4cy@duck.com
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-white mt-8 mb-6">Connect</h3>
+              <div className="space-y-4">
+                <a 
+                  href="https://github.com/pir4cy" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-3 text-dark-300 hover:text-white transition-colors"
+                >
+                  <Github className="h-5 w-5 text-primary-500" />
+                  <span>GitHub</span>
+                </a>
+                <a 
+                  href="https://x.com/kt_pir4cy" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-3 text-dark-300 hover:text-white transition-colors"
+                >
+                  <X className="h-5 w-5 text-primary-500" />
+                  <span>Twitter</span>
+                </a>
+                <a 
+                  href="https://linkedin.com/in/pir4cy" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-3 text-dark-300 hover:text-white transition-colors"
+                >
+                  <Linkedin className="h-5 w-5 text-primary-500" />
+                  <span>LinkedIn</span>
+                </a>
+              </div>
             </motion.div>
           </div>
         </div>
