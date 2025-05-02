@@ -1,6 +1,6 @@
 ---
 title: 'HTB: Curling'
-date: '2025-04-26'
+date: '2019-04-22'
 excerpt: 'Curling is an Easy difficulty Linux box which requires a fair amount of enumeration. The password is saved in a file on the web root. The username can be download through a post on the CMS which allows a login. Modifying the php template gives a shell. Finding a hex dump and reversing it gives a user shell. On enumerating running processes a cron is discovered which can be exploited for root.'
 readingTime: 3
 tags: ['HTB', 'Writeup', 'HTB', 'Writeup', 'Easy', 'Linux', 'Web']

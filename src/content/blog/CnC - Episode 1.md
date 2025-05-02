@@ -2,7 +2,7 @@
 title: ElectronJS - Command and Control via Loki
 date: 2025-04-30
 excerpt: In this post, I explore Loki C2 - a command and control framework built in NodeJS and targets applications built on ElectronJS
-readingTime: 5
+readingTime: 
 tags:
   - Cybersecurity
   - Tech

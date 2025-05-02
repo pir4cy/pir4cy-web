@@ -202,8 +202,38 @@ const BlogPostPage = (): ReactElement => {
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeRaw, rehypeSanitize]}
-                  components={components}
-                  className="prose prose-invert prose-lg max-w-none prose-pre:p-0"
+                  components={{
+                    code({ node, inline, className, children, ...props }) {
+                      const match = /language-(\w+)/.exec(className || '');
+                      return !inline && match ? (
+                        <SyntaxHighlighter
+                          style={vscDarkPlus}
+                          language={match[1]}
+                          PreTag="div"
+                          {...props}
+                        >
+                          {String(children).replace(/\n$/, '')}
+                        </SyntaxHighlighter>
+                      ) : (
+                        <code className={className} {...props}>
+                          {children}
+                        </code>
+                      );
+                    },
+                    ul({ children }) {
+                      return <ul className="list-disc pl-6">{children}</ul>;
+                    },
+                    ol({ children }) {
+                      return <ol className="list-decimal pl-6">{children}</ol>;
+                    },
+                    li({ children }) {
+                      return <li className="my-2">{children}</li>;
+                    },
+                    blockquote({ children }) {
+                      return <blockquote className="border-l-4 border-primary-500 pl-4 italic my-4">{children}</blockquote>;
+                    },
+                    img: Image
+                  }}
                 >
                   {post.content}
                 </ReactMarkdown>

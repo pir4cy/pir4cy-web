@@ -16,7 +16,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-grotesk font-bold;
+    @apply font-grotesk font-bold mt-10 mb-4;
   }
 
   h1 {
@@ -36,11 +36,15 @@
   }
 
   p {
-    @apply leading-relaxed;
+    @apply leading-relaxed mb-5;
   }
 
   a {
     @apply transition-colors duration-200;
+  }
+
+  ul, ol {
+    @apply mb-5;
   }
 }
 

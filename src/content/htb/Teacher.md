@@ -1,6 +1,6 @@
 ---
 title: 'HTB: Teacher'
-date: '2025-04-26'
+date: '2019-04-22'
 excerpt: 'Teacher is a medium difficulty machine, which teaches techniques for identifying and exploiting logical flaws and vulnerabilities of outdated modules within popular CMS (in this instance Moodle), enumeration of sensitive information within the backend database and leverage misconfigurations on the operating system, which lead to a complete compromise of a system.'
 readingTime: 3
 tags: ['HTB', 'Writeup', 'HTB', 'Writeup', 'Easy', 'Medium', 'Linux', 'Web']

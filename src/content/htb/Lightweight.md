@@ -1,6 +1,6 @@
 ---
 title: 'HTB: Lightweight'
-date: '2025-04-26'
+date: '2019-05-11'
 excerpt: 'Lightweight is a pretty unique and challenging box which showcases the common mistakes made by system administrators and the need for encryption in any kind protocol used. It deals with the abuse of Linux capabilities which can be harmful in bad hands and how unencrypted protocols like LDAP can be sniffed to gain information and credentials.'
 readingTime: 2
 tags: ['HTB', 'Writeup', 'HTB', 'Writeup', 'Easy', 'Medium', 'Linux', 'Web']

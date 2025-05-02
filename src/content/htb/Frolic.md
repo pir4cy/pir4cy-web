@@ -1,6 +1,6 @@
 ---
 title: 'HTB: Frolic'
-date: '2025-04-26'
+date: '2019-03-23'
 excerpt: 'Frolic is not overly challenging, however a great deal of enumeration is required due to the amount of services and content running on the machine. The privilege escalation features an easy difficulty return-oriented programming (ROP) exploitation challenge, and is a great learning experience for beginners.'
 readingTime: 4
 tags: ['HTB', 'Writeup', 'HTB', 'Writeup', 'Medium', 'Linux', 'Pwn']

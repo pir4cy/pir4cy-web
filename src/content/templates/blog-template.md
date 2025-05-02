@@ -2,7 +2,6 @@
 title: 'Your Blog Post Title'
 date: 'YYYY-MM-DD'
 excerpt: 'A brief, engaging summary of what you're writing about. Keep it casual and interesting.'
-readingTime: 5
 tags: ['Cybersecurity', 'Tech', 'Hacking', 'Programming']
 author: 'pir4cy'
 coverImage: '/images/blog/covers/[blog-name]-cover.png'

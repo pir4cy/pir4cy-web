@@ -172,8 +172,12 @@
   },
   "active": "40277675c096838a",
   "lastOpenFiles": [
+    "blog/ep1_hellofriend.md",
+    "templates/writeup-template.md",
     "templates/blog-template.md",
     "blog/CnC - Episode 1.md",
+    "blog/eps1.0_hellofriend.md",
+    "blog/eps1-hellofriend.md",
     "htb/Beep.md",
     "htb/Curling.md",
     "htb/Frolic.md",
@@ -184,7 +188,6 @@
     "htb/Lame.md",
     "htb/October.md",
     "Untitled.md",
-    "templates/writeup-template.md",
     "templates",
     "blog/blog-template.md",
     "htb/writeup-template.md"

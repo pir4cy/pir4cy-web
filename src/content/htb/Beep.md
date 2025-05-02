@@ -1,6 +1,6 @@
 ---
 title: 'HTB: Beep'
-date: '2025-04-26'
+date: '2019-03-27'
 excerpt: 'Beep has a very large list of running services, which can make it a bit challenging to find the correct entry method. This machine can be overwhelming for some as there are many potential attack vectors. Luckily, there are several methods available for gaining access.'
 readingTime: 1
 tags: ['HTB', 'Writeup', 'HTB', 'Writeup', 'Easy', 'Linux', 'Web', 'Pwn']

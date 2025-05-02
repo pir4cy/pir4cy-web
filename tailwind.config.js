@@ -98,11 +98,48 @@ export default {
             },
             'a': {
               color: 'var(--tw-prose-links)',
-              textDecoration: 'underline',
+              textDecoration: 'none',
               fontWeight: '500',
+              '&:hover': {
+                color: 'var(--tw-prose-links-hover)',
+                textDecoration: 'underline'
+              }
             },
-            'a:hover': {
-              color: 'var(--tw-prose-links-hover)',
+            'ul, ol': {
+              marginTop: '1.25em',
+              marginBottom: '1.25em',
+              paddingLeft: '1.625em'
+            },
+            'ul': {
+              listStyleType: 'disc'
+            },
+            'ol': {
+              listStyleType: 'decimal'
+            },
+            'li': {
+              marginTop: '0.5em',
+              marginBottom: '0.5em'
+            },
+            'blockquote': {
+              fontWeight: '500',
+              fontStyle: 'italic',
+              color: 'var(--tw-prose-quotes)',
+              borderLeftWidth: '0.25rem',
+              borderLeftColor: 'var(--tw-prose-quote-borders)',
+              quotes: '"\\201C""\\201D""\\2018""\\2019"',
+              marginTop: '1.6em',
+              marginBottom: '1.6em',
+              paddingLeft: '1em'
+            },
+            'blockquote p:first-of-type::before': {
+              content: 'open-quote'
+            },
+            'blockquote p:last-of-type::after': {
+              content: 'close-quote'
+            },
+            hr: {
+              borderColor: 'var(--tw-prose-hr)',
+              borderWidth: '1px',
             },
             'h1, h2, h3, h4, h5, h6': {
               fontFamily: 'Space Grotesk, sans-serif',
@@ -110,21 +147,6 @@ export default {
             },
             'ul > li::marker': {
               color: 'var(--tw-prose-bullets)',
-            },
-            hr: {
-              borderColor: 'var(--tw-prose-hr)',
-              borderWidth: '1px',
-            },
-            blockquote: {
-              fontWeight: '500',
-              fontStyle: 'italic',
-              color: 'var(--tw-prose-quotes)',
-              borderLeftWidth: '0.25rem',
-              borderLeftColor: 'var(--tw-prose-quote-borders)',
-              paddingLeft: '1rem',
-            },
-            'h1, h2, h3, h4, h5, h6': {
-              color: 'var(--tw-prose-headings)',
             },
             'h1': {
               fontSize: '2.25em',

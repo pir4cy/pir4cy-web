@@ -1,6 +1,7 @@
 import matter from 'gray-matter';
 import { Buffer } from 'buffer';
 import { Post, Frontmatter } from '../types/blog';
+import { calculateReadingTime } from '../utils/blogUtils';
 
 // Make Buffer available globally
 if (typeof window !== 'undefined') {
@@ -37,7 +38,7 @@ function parsePost(path: string, content: string): Post | null {
       title: data.title || 'Untitled',
       date: data.date || new Date().toISOString().split('T')[0],
       excerpt: data.excerpt || 'No excerpt available',
-      readingTime: data.readingTime || 1,
+      readingTime: calculateReadingTime(markdownContent),
       tags: Array.isArray(data.tags) ? [...new Set(data.tags)] : ['Untagged'],
       author: data.author || 'Unknown',
       coverImage: data.coverImage || '/images/default-cover.jpg',

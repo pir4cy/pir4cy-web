@@ -1,6 +1,6 @@
 ---
 title: 'HTB: Lame'
-date: '2025-04-26'
+date: '2019-03-25'
 excerpt: 'Lame is an easy Linux machine, requiring only one exploit to obtain root access. It was the first machine published on Hack The Box and was often the first machine for new users prior to its retirement.'
 readingTime: 1
 tags: ['HTB', 'Writeup', 'HTB', 'Writeup', 'Easy', 'Linux', 'Pwn']
