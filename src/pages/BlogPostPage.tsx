@@ -13,6 +13,7 @@ import SEO from '../components/SEO';
 import { getPostBySlug } from '../utils/blogUtils';
 import { Post } from '../types/blog';
 import type { Components } from 'react-markdown';
+import Giscus from '@giscus/react';
 
 type ImageProps = ComponentProps<'img'>;
 
@@ -107,7 +108,7 @@ const BlogPostPage = (): ReactElement => {
     },
     img: Image
   };
-  
+
   // Handle 404
   if (!isLoading && error) {
     return (
@@ -237,6 +238,25 @@ const BlogPostPage = (): ReactElement => {
                 >
                   {post.content}
                 </ReactMarkdown>
+
+                {/* Comments section */}
+                <div className="mt-16 pt-8 border-t border-dark-700">
+                  <h2 className="text-2xl font-bold text-white mb-8">Comments</h2>
+                  <Giscus 
+                    id="comments"
+                    repo="pir4cy/pir4cy-web"
+                    repoId="R_kgDOOgMyiQ"
+                    category="General"
+                    categoryId="DIC_kwDOOgMyic4Cp2iG"
+                    mapping="pathname"
+                    reactionsEnabled="1"
+                    emitMetadata="0"
+                    inputPosition="bottom"
+                    theme="dark"
+                    lang="en"
+                    loading="lazy"
+                  />
+                </div>
               </div>
             </motion.div>
           )}

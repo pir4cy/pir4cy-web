@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
           
           <div className="flex items-center gap-4">
             <a 
-              href="https://github.com" 
+              href="https://github.com/pir4cy" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-dark-400 hover:text-white transition-colors duration-200"
@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
               <Github className="h-5 w-5" />
             </a>
             <a 
-              href="https://twitter.com" 
+              href="https://x.com/kt_pir4cy" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-dark-400 hover:text-white transition-colors duration-200"
@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
               <Twitter className="h-5 w-5" />
             </a>
             <a 
-              href="https://linkedin.com" 
+              href="https://linkedin.com/in/pir4cy" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-dark-400 hover:text-white transition-colors duration-200"
@@ -47,7 +47,7 @@ const Footer: React.FC = () => {
               <Linkedin className="h-5 w-5" />
             </a>
             <a 
-              href="mailto:contact@example.com" 
+              href="mailto:pir4cy@duck.com" 
               className="text-dark-400 hover:text-white transition-colors duration-200"
               aria-label="Email"
             >
