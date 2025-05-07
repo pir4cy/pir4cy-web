@@ -47,7 +47,7 @@ const Header: React.FC = () => {
               alt="pir4cy logo"
               className="h-10 w-10 object-contain drop-shadow-lg"
               style={{ marginRight: '0.5rem' }}
-            />
+              />
             <span className="text-2xl font-grotesk font-bold tracking-tight">
               <span className="text-white">pir</span>
               <span className="text-primary-500">4</span>

@@ -125,16 +125,16 @@ const ProjectsPage: React.FC = () => {
           
           {/* Projects grid */}
           {!isLoading && !error && (
-            <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              {filteredProjects.map(project => (
-                <ProjectCard key={project.id} project={project} />
-              ))}
-            </motion.div>
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            {filteredProjects.map(project => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </motion.div>
           )}
           
           {/* Empty state */}

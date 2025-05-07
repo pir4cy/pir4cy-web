@@ -17,6 +17,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             src={imageUrl} 
             alt={title} 
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            onError={(e) => {
+              e.currentTarget.onerror = null; // prevents infinite loop
+              e.currentTarget.src = `/images/projects/${title}-cover.gif`;
+            }}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-dark-800">

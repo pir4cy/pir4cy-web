@@ -3,7 +3,7 @@ declare module 'vite-plugin-raw' {
     match: RegExp;
     exclude?: RegExp[];
   }
-  
+ 
   function raw(options: RawPluginOptions): any;
   export default raw;
 } 

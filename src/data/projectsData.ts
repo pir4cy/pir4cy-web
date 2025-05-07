@@ -50,7 +50,8 @@ async function fetchGitHubRepos(sort: RepoSort = defaultSort): Promise<Project[]
       githubUrl: repo.html_url,
       demoUrl: repo.homepage,
       featured: true,
-      date: repo.updated_at
+      date: repo.updated_at,
+      imageUrl: `/images/projects/${repo.name}-cover.png`
     }));
   } catch (error) {
     console.error('Error fetching GitHub repositories:', error);
