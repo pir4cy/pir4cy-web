@@ -42,21 +42,12 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <div className="relative">
-              <Terminal className="h-8 w-8 text-primary-500" strokeWidth={1.5} />
-              <motion.div 
-                className="absolute -inset-1 rounded-lg bg-primary-500/20"
-                animate={{ 
-                  scale: [1, 1.2, 1],
-                  opacity: [0.3, 0.5, 0.3]
-                }}
-                transition={{ 
-                  duration: 3, 
-                  repeat: Infinity,
-                  ease: "easeInOut" 
-                }}
-              />
-            </div>
+            <img
+              src="/images/logos/main-logo.png"
+              alt="pir4cy logo"
+              className="h-10 w-10 object-contain drop-shadow-lg"
+              style={{ marginRight: '0.5rem' }}
+            />
             <span className="text-2xl font-grotesk font-bold tracking-tight">
               <span className="text-white">pir</span>
               <span className="text-primary-500">4</span>
