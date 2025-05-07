@@ -11,12 +11,14 @@ if (typeof window !== 'undefined') {
 // Import all markdown files from both blog and htb directories
 const blogPosts = import.meta.glob('../content/blog/*.md', { 
   eager: true,
-  as: 'raw',
+  query: '?raw', 
+  import: 'default'
 }) as Record<string, string>;
 
 const htbPosts = import.meta.glob('../content/htb/*.md', {
   eager: true,
-  as: 'raw',
+  query: '?raw',
+  import: 'default'
 }) as Record<string, string>;
 
 function parsePost(path: string, content: string): Post | null {

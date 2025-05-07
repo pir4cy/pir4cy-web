@@ -283,7 +283,7 @@ const HomePage: React.FC = () => {
       <section className="py-20">
         <div className="container-custom">
           <div className="brutalist-box text-center p-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Ready to work together?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Want to collaborate?</h2>
             <p className="text-xl text-dark-300 mb-8 max-w-2xl mx-auto">
               Whether you have a specific project in mind or just want to connect, I'm always open to new opportunities and collaborations.
             </p>

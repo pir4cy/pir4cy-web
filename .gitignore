@@ -26,3 +26,9 @@ dist-ssr
 # Ignore draft blog posts
 src/content/blog/*draft*.md
 src/content/htb/*draft*.md
+
+# Obsidian Files
+.obsidian/
+
+# Syncthing files
+.stfolder/

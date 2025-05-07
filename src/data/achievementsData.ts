@@ -27,11 +27,7 @@ export const achievements: Achievement[] = [
     link: 'https://certified.tcm-sec.com/e963ce01-7ef8-4a09-8936-3929cf74fd5b#acc.4ecr1oOJ',
     category: 'badge',
     certificateUrl: '/images/certifications/pwpa.png'
-  },
-  
-
-  
-  // WakaTime Stats
+  }
 
 ];
 

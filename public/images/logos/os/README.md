@@ -8,4 +8,3 @@ This directory contains logos for different operating systems. Each logo should 
 Required logos:
 - linux.png
 - windows.png
-- bsd.png 
