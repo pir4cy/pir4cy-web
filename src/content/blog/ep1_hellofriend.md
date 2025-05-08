@@ -1,7 +1,7 @@
 ---
 title: eps1.0_hellofriend.mov
 date: 2025-05-02
-excerpt: First Blog Post
+excerpt: Getting started with the blog. A place to share my journey in tech and cybersecurity.
 tags:
   - Casual
 author: pir4cy

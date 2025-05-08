@@ -206,7 +206,6 @@ const HomePage: React.FC = () => {
           )}
           
 
-          
           {/* Empty state */}
           {!isLoading && !error && recentPosts.length === 0 && (
             <div className="text-center py-12">
