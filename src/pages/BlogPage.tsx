@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import SEO from '../components/SEO';
 import PageHeader from '../components/ui/PageHeader';
 import BlogCard from '../components/blog/BlogCard';
-import { getAllPosts, searchPosts } from '../utils/blogUtils';
+import { getAllPosts } from '../utils/blogUtils';
 import { Post } from '../types/blog';
 
 const BlogPage: React.FC = () => {
@@ -91,7 +91,7 @@ const BlogPage: React.FC = () => {
       
       <PageHeader 
         title="Blog" 
-        description="Thoughts, tutorials, and insights on software engineering, cybersecurity, and technology. Including HTB writeups."
+        description="Thoughts, tutorials, and insights on software, tech and cybersecurity. Feel free to leave a comment!"
       />
       
       <section className="py-12">

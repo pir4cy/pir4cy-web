@@ -21,7 +21,7 @@ type ExtendedPost = {
   frontmatter: ExtendedFrontmatter;
 };
 
-const BlogCard: FC<BlogCardProps> = ({ post, featured = false }) => {
+const BlogCard: FC<BlogCardProps> = ({ post, featured = false, showExcerpt = true }) => {
   const { slug, frontmatter } = post;
   const { title, date, excerpt, readingTime, tags, coverImage } = frontmatter;
   const os = (frontmatter as ExtendedFrontmatter).os;
@@ -87,10 +87,10 @@ const BlogCard: FC<BlogCardProps> = ({ post, featured = false }) => {
           </h3>
           
           <p className="text-dark-300 line-clamp-2">
-            {excerpt}
+            {showExcerpt ? excerpt : ''}
           </p>
           
-          <div className="flex items-center gap-4 text-dark-400 text-sm pt-2">
+          <div className="flex items-center gap-1 text-dark-400 text-sm pt-1">
             <div className="flex items-center gap-1.5">
               <Calendar className="h-4 w-4" />
               <span>{formattedDate}</span>

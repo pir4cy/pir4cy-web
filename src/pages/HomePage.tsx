@@ -66,7 +66,7 @@ const HomePage: React.FC = () => {
     <>
       <SEO 
         title="Home" 
-        description="Welcome to my portfolio website. I'm a software engineer passionate about building great products."
+        description="Welcome to my portfolio website. I'm a software engineer specializing in cybersecurity and building great products."
         canonical="/"
       />
       
@@ -133,7 +133,7 @@ const HomePage: React.FC = () => {
               <Code className="h-10 w-10 text-primary-500 mb-4" />
               <h3 className="text-xl font-bold text-white mb-3">Development & Automation</h3>
               <p className="text-dark-300">
-                Building efficient tools and scripts in Python, JavaScript, and Bash to optimize security workflows.
+                Building efficient tools and scripts in Bash, JavaScript and Python to optimize security workflows.
               </p>
             </div>
             
@@ -141,7 +141,7 @@ const HomePage: React.FC = () => {
               <Database className="h-10 w-10 text-primary-500 mb-4" />
               <h3 className="text-xl font-bold text-white mb-3">Offensive Security</h3>
               <p className="text-dark-300">
-                Experienced in Active Directory, Windows, Linux, and Web application security. Learning through experience.
+                Experienced in Active Directory, Windows, Linux, and Web application security.
               </p>
             </div>
             
@@ -196,22 +196,16 @@ const HomePage: React.FC = () => {
               </div>
               
               <div className="two-columns-sidebar">
-                <div className="space-y-6">
+                <div className="space-y-1">
                   {recentPosts.slice(1, 3).map((post) => (
-                    <BlogCard key={post.slug} post={post} />
+                    <BlogCard key={post.slug} post={post} showExcerpt={false} />
                   ))}
                 </div>
               </div>
             </div>
           )}
           
-          {!isLoading && !error && recentPosts.length > 3 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-              {recentPosts.slice(3, 5).map((post) => (
-                <BlogCard key={post.slug} post={post} />
-              ))}
-            </div>
-          )}
+
           
           {/* Empty state */}
           {!isLoading && !error && recentPosts.length === 0 && (

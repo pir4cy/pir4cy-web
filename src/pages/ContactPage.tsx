@@ -161,11 +161,11 @@ const ContactPage: React.FC = () => {
                 <h3 className="text-xl font-bold text-white mb-4">Connect</h3>
                 <div className="space-y-4">
                   <a 
-                    href="mailto:pir4cy@duck.com"
+                    href="mailto:kt.pir4cy@pm.me"
                     className="flex items-center gap-3 text-dark-300 hover:text-white transition-colors"
                   >
                     <Mail className="h-5 w-5 text-primary-500" />
-                    <span>pir4cy@duck.com</span>
+                    <span>Email</span>
                   </a>
                   <a 
                     href="https://github.com/pir4cy" 

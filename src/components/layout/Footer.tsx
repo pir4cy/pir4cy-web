@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+
 import { Github, Twitter, Linkedin, Mail } from 'lucide-react';
 
 const Footer: React.FC = () => {
@@ -47,7 +47,7 @@ const Footer: React.FC = () => {
               <Linkedin className="h-5 w-5" />
             </a>
             <a 
-              href="mailto:pir4cy@duck.com" 
+              href="mailto:kt.pir4cy@pm.me" 
               className="text-dark-400 hover:text-white transition-colors duration-200"
               aria-label="Email"
             >
