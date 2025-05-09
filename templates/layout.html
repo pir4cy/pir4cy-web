@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Title }} | pir4cy</title>
+    <meta name="description" content="{{ .Description }}">
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <!-- Alpine.js for interactivity -->
+    <script src="https://unpkg.com/alpinejs@3.13.5/dist/cdn.min.js" defer></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="/static/css/main.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-dark-950 text-dark-100 min-h-screen flex flex-col">
+    <!-- Header -->
+    {{ template "header" . }}
+    
+    <!-- Main content -->
+    <main class="flex-grow">
+        {{ template "content" . }}
+    </main>
+    
+    <!-- Footer -->
+    {{ template "footer" . }}
+    
+    <!-- Custom scripts -->
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
