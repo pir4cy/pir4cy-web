@@ -1,6 +1,6 @@
 ---
 title: ElectronJS - Command and Control via Loki
-date: 2025-05-06
+date: 2025-05-09
 excerpt: In this post, I explore Loki C2 - a command and control framework built in NodeJS and targets applications built on ElectronJS
 tags:
   - Cybersecurity
@@ -12,12 +12,12 @@ tags:
   - LokiC2
 author: pir4cy
 coverImage: /images/blog/ep2-cover.png
-draft: true
+draft: false
 ---
 
 In today's post, we look at a Command and Control tool called [Loki](https://github.com/boku7/Loki). This is built on NodeJS and exploits ASAR misconfiguration in ElectronJS.
 
-Sounds like a lot of words, but in reality, it is a way for us to create a persistent connection with the target endpoint after a compromise.
+Sounds like a lot of words, but it is another way for us to create a persistent connection with the target endpoint after a compromise.
 
 Once the connection is generated, we will get backdoor access into the endpoint that we target. This might end up being a long one so here's a summary - 
 
@@ -199,7 +199,6 @@ And voila, we have a connection!
 This was just a showcase of how Loki works and how Electron-based can be exploited for script jacking. Apart from testing Obsidian, I also tested the following apps - 
 + Franz - v 5.11.0
 + Ferdium - v 7.0.1
-+ TIDAL 
 + Notion - not vulnerable 
 
 What actually piqued my interest was the part about launching the target app as well as the Loki client. That is definitely promising and should be explored further. [@JohnHammond](https://x.com/_johnhammond) and [@boku](https://x.com/0xBoku) were able to do it for Cursor and I'd definitely want to look into it and see if I can emulate the same on the apps that I tested.
@@ -224,5 +223,4 @@ In a future post, I'll look into launching the application as well as potentiall
 	- [Obsidian Official Link](https://obsidian.md/) - One of the best note-taking software I've tried so far.
 	- [Ferdium Official Link](https://ferdium.org/) - Great app for an all-in-one services (discord, slack, chatgpt, etc)
 	- [Franz Official Link](https://meetfranz.com/) - Similar to Ferdium but has paid services also.
-	- [TIDAL](https://tidal.com/) - Lossless music at your fingertips. Haven't tried this personally but it looks amazing.
 	- [Notion](https://www.notion.so/) - Another great note taking software.
