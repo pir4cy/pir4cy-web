@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { ReactElement, ComponentProps } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Calendar, Clock, Tag } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
