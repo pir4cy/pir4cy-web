@@ -12,7 +12,6 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import SEO from '../components/SEO';
 import { getPostBySlug } from '../utils/blogUtils';
 import { Post } from '../types/blog';
-import type { Components } from 'react-markdown';
 import Giscus from '@giscus/react';
 
 type ImageProps = ComponentProps<'img'>;
@@ -74,9 +73,10 @@ const BlogPostPage = (): ReactElement => {
     fetchPost();
   }, [slug]);
 
+  // Umami custom event tracking for blog post views
   React.useEffect(() => {
-    if (window.umami && slug) {
-      window.umami.track('blog_view', { post: slug });
+    if (typeof window !== 'undefined' && (window as any).umami && slug) {
+      (window as any).umami.track('blog_view', { post: slug });
     }
   }, [slug]);
   
@@ -88,33 +88,6 @@ const BlogPostPage = (): ReactElement => {
       })
     : '';
   
-  const components: Components = {
-    code({ node, inline, className, children, ...props }: { 
-      node?: any;
-      inline?: boolean;
-      className?: string;
-      children: React.ReactNode;
-      [key: string]: any;
-    }) {
-      const match = /language-(\w+)/.exec(className || '');
-      return !inline && match ? (
-        <SyntaxHighlighter
-          style={vscDarkPlus}
-          language={match[1]}
-          PreTag="div"
-          {...props}
-        >
-          {String(children).replace(/\n$/, '')}
-        </SyntaxHighlighter>
-      ) : (
-        <code className={className} {...props}>
-          {children}
-        </code>
-      );
-    },
-    img: Image
-  };
-
   // Handle 404
   if (!isLoading && error) {
     return (
@@ -210,11 +183,11 @@ const BlogPostPage = (): ReactElement => {
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeRaw, rehypeSanitize]}
                   components={{
-                    code({ node, inline, className, children, ...props }) {
+                    code({inline, className, children, ...props}: any) {
                       const match = /language-(\w+)/.exec(className || '');
                       return !inline && match ? (
                         <SyntaxHighlighter
-                          style={vscDarkPlus}
+                          style={vscDarkPlus as any}
                           language={match[1]}
                           PreTag="div"
                           {...props}
