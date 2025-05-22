@@ -14,7 +14,6 @@ import { getPostBySlug } from '../utils/blogUtils';
 import { Post } from '../types/blog';
 import type { Components } from 'react-markdown';
 import Giscus from '@giscus/react';
-import countapi from 'countapi-js';
 
 type ImageProps = ComponentProps<'img'>;
 
@@ -53,7 +52,6 @@ const BlogPostPage = (): ReactElement => {
   const [post, setPost] = React.useState<Post | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
-  const [views, setViews] = React.useState<number | null>(null);
   
   React.useEffect(() => {
     const fetchPost = async () => {
@@ -74,16 +72,11 @@ const BlogPostPage = (): ReactElement => {
     };
 
     fetchPost();
+  }, [slug]);
 
-    // View counter logic
-    if (slug) {
-      countapi.hit('pir4cy-web', slug)
-        .then((result) => {
-          setViews(result.value);
-        })
-        .catch(() => {
-          setViews(0); // fallback if API fails
-        });
+  React.useEffect(() => {
+    if (window.umami && slug) {
+      window.umami.track('blog_view', { post: slug });
     }
   }, [slug]);
   
@@ -251,10 +244,6 @@ const BlogPostPage = (): ReactElement => {
                 >
                   {post.content}
                 </ReactMarkdown>
-
-                <div className="mt-8 text-dark-300 text-sm">
-                  {views !== null ? `${views} views` : 'Loading views...'}
-                </div>
 
                 {/* Comments section */}
                 <div className="mt-16 pt-8 border-t border-dark-700">
