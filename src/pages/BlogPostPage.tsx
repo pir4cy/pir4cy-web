@@ -77,9 +77,13 @@ const BlogPostPage = (): ReactElement => {
 
     // View counter logic
     if (slug) {
-      countapi.hit('pir4cy-web', slug).then((result) => {
-        setViews(result.value);
-      });
+      countapi.hit('pir4cy-web', slug)
+        .then((result) => {
+          setViews(result.value);
+        })
+        .catch(() => {
+          setViews(0); // fallback if API fails
+        });
     }
   }, [slug]);
   
