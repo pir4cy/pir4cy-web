@@ -27,8 +27,8 @@ function parsePost(path: string, content: string): Post | null {
     const buffer = Buffer.from(content);
     const { data, content: markdownContent } = matter(buffer);
     
-    // Skip draft posts
-    if (data.draft === true) {
+    // Only skip draft posts in production
+    if (data.draft === true && !import.meta.env.DEV) {
       return null;
     }
 
