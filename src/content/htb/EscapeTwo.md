@@ -75,7 +75,7 @@ nxc smb dc01.sequel.htb -u 'rose' -p 'KxEPkKe6R8su' --shares
 We find an "Accounting Department" share that's accessible. Let's see what's inside:
 
 ```
-nxc smb dc01.sequel.htb -u 'rose' -p 'KxEPkKe6R8su' --shares -M spider_plus -o DOWNLOAD_ALL=True
+nxc smb dc01.sequel.htb -u 'rose' -p 'KxEPkKe6R8su' --shares -M spider_plus -o DOWNLOAD_FLAG=True
 ```
 
 In the share, we discover some Excel files. After unzipping and analyzing them, we find credentials for the 'sa' user for the MSSQL server.
