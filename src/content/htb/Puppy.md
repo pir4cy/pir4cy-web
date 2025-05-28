@@ -43,7 +43,7 @@ We have the credentials for an account: levi.james / KingofAkron2025!
 ## Info  
   * IP: 10.10.11.70
   * OS: Windows
-  * Difficulty: Hard
+  * Difficulty: Medium
   * Initial credentials: `levi.james:KingofAkron2025!`
 ## Initial Scan
 
@@ -138,7 +138,6 @@ Before we move on, let's test these credentials to see if we get any sort of acc
 
 Looks like we only have 1 valid credential - `ant.edwards:Antman2025!`
 
-maybe a gif of cleaning up sheepishly?
 ## User
 Going back to bloodhound, we can run nxc again to update our bloodhound data and gather any new data that we can
 ```
@@ -201,7 +200,7 @@ Based on what we have seen so far, `Steph Cooper` has 2 accounts -
 - Mortal Account - `steph.cooper:ChefSteph2025!`
 - Admin Account - `steph.cooper_adm`
 
-With our current terminal access, we can move on to attempting to searches for DPAPI credentials. If we can get the credentials and master key, we can attempt to decrypt and get plaintext credentials to move further.
+There might be stored credentials on the machine itself. With our current terminal access, we can move on to attempting to searches for DPAPI credentials. If we can get the credentials and master key, we can attempt to decrypt and get plaintext credentials to move further.
 
 ### Grabbing DPAPI Master Key
 
