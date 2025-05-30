@@ -26,6 +26,7 @@ dist-ssr
 # Ignore draft blog posts
 src/content/blog/*draft*.md
 src/content/htb/*draft*.md
+src/content/Excalidraw/*
 
 # Obsidian Files
 .obsidian/
