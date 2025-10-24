@@ -15,10 +15,10 @@ tags:
   - bloodhound
   - impacket
   - ADCS
-  - Certificate Templates
   - evil-winrm
   - writeowner
   - certipy
+  - certificate-templates
 author: pir4cy
 coverImage: /images/htb/covers/escapetwo-cover.png
 draft: false
@@ -169,7 +169,7 @@ certipy-ad find -u ca_svc@sequel.htb -p 'pir4cy1sc00l!' -dc-ip 10.10.11.51 -text
 
 We identify a vulnerable template called "DunderMifflinAuthentication" that has the ESC4 vulnerability, allowing the CERTPUBLISHERS group to request certificates for any user, including Administrator. The vulnerability exists because members of the CERTPUBLISHERS group have enrollment rights and dangerous permissions (Full Control, Write Owner, Write DACL) on the template.
 
-![exploitable template](/images/htb/machines/EscapeTwo/certipy-dunder-mifflin-template.png)
+![exploitable template](/images/htb/machines/EscapeTwo/certipy-dundermifflin-template.png)
 
 Let's exploit this ESC4 vulnerability to obtain a certificate for the Administrator account:
 

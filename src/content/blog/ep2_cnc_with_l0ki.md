@@ -17,7 +17,7 @@ draft: false
 
 In today's post, we look at a Command and Control tool called [Loki](https://github.com/boku7/Loki). This is built on NodeJS and exploits ASAR misconfiguration in ElectronJS.
 
-Sounds like a lot of words, but it is another way for us to create a persistent connection with the target endpoint after a compromise.
+Sounds like a lot of nerdspeak, but it is another way for us to create a persistent connection with the target endpoint after a compromise.
 
 Once the connection is generated, we will get backdoor access into the endpoint that we target. This might end up being a long one so here's a summary - 
 
