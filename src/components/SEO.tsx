@@ -20,6 +20,30 @@ const SEO: React.FC<SEOProps> = ({
 }) => {
   const siteUrl = window.location.origin;
   const fullTitle = title === 'Home' ? 'pir4cy | Engineer. Hacker. Builder.' : `${title} | pir4cy`;
+  const socialImage = image && image.trim() !== '' ? image : '/social-image.jpg';
+  
+  // Generate JSON-LD structured data for articles
+  const jsonLd = type === 'article' && publishedAt ? {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": fullTitle,
+    "description": description,
+    "image": `${siteUrl}${socialImage}`,
+    "author": {
+      "@type": "Person",
+      "name": "pir4cy"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "pir4cy",
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${siteUrl}/images/logos/main-logo.png`
+      }
+    },
+    "datePublished": publishedAt,
+    "url": `${siteUrl}${canonical}`
+  } : null;
   
   return (
     <Helmet>
@@ -33,7 +57,10 @@ const SEO: React.FC<SEOProps> = ({
       <meta property="og:url" content={`${siteUrl}${canonical}`} />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={`${siteUrl}${image}`} />
+      <meta property="og:image" content={`${siteUrl}${socialImage}`} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:type" content="image/png" />
       {publishedAt && <meta property="article:published_time" content={publishedAt} />}
 
       {/* Twitter */}
@@ -41,7 +68,18 @@ const SEO: React.FC<SEOProps> = ({
       <meta name="twitter:url" content={`${siteUrl}${canonical}`} />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={`${siteUrl}${image}`} />
+      <meta name="twitter:image" content={`${siteUrl}${socialImage}`} />
+      
+      {/* LinkedIn specific */}
+      <meta property="og:site_name" content="pir4cy" />
+      <meta name="author" content="pir4cy" />
+      
+      {/* JSON-LD structured data */}
+      {jsonLd && (
+        <script type="application/ld+json">
+          {JSON.stringify(jsonLd)}
+        </script>
+      )}
     </Helmet>
   );
 };

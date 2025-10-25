@@ -110,6 +110,9 @@ const BlogPostPage = (): ReactElement => {
           title={post.frontmatter.title} 
           description={post.frontmatter.excerpt}
           canonical={`/blog/${post.slug}`}
+          image={post.frontmatter.coverImage}
+          type="article"
+          publishedAt={post.frontmatter.date}
         />
       )}
       
@@ -141,6 +144,17 @@ const BlogPostPage = (): ReactElement => {
             >
               {/* Post header */}
               <header className="mb-8">
+                {/* Cover image */}
+                {post.frontmatter.coverImage && (
+                  <div className="mb-6">
+                    <img 
+                      src={post.frontmatter.coverImage} 
+                      alt={`Cover image for ${post.frontmatter.title}`}
+                      className="w-full max-w-4xl mx-auto rounded-lg shadow-lg"
+                    />
+                  </div>
+                )}
+                
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
                   {post.frontmatter.title}
                 </h1>
