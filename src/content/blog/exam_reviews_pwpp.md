@@ -8,7 +8,7 @@ tags:
   - api
   - tcm-security
 author: pir4cy
-coverImage: /images/certifications/pwpp-certificate.png
+coverImage: /images/certifications/pwpp.png
 draft: false
 ---
 ## Overview
