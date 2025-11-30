@@ -27,6 +27,14 @@ export const achievements: Achievement[] = [
     link: 'https://certified.tcm-sec.com/e963ce01-7ef8-4a09-8936-3929cf74fd5b#acc.4ecr1oOJ',
     category: 'badge',
     certificateUrl: '/images/certifications/pwpa.png'
+  },
+  {
+    id: 'pwpp-badge',
+    name: 'Practical Web Pentest Professional',
+    imageUrl: '/images/badges/pwpp.png',
+    link: 'https://certified.tcm-sec.com/0e3efe77-7b75-4dfb-b5f9-f0c325a98367#acc.AHGZowlS',
+    category: 'badge',
+    certificateUrl: '/images/certifications/pwpp.png'
   }
 
 ];
