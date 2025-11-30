@@ -1,7 +1,7 @@
 ---
-title: Exam Review - Practical Web Pentest Professional (PWPP)
+title: Practical Web Pentest Professional (PWPP) Review
 date: 2025-11-30
-excerpt: Exam Review of Practical Web Pentest Professional - TCM Security
+excerpt: Review of Practical Web Pentest Professional by TCM Security
 tags:
   - exam-reviews
   - Web
