@@ -1,6 +1,6 @@
 ---
 title: "HTB: Puppy"
-date: 2025-05-21
+date: 2025-10-24
 excerpt: Puppy is a Windows machine that simulates a real life pentest scenario. Credentials are provided.
 readingTime: 10
 tags:
