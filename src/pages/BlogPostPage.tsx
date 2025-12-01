@@ -15,7 +15,7 @@ import { Post } from '../types/blog';
 import Giscus from '@giscus/react';
 
 type ImageProps = ComponentProps<'img'>;
-
+<meta name="author" content="Kshitij Tripathi"></meta>
 // Simple image component that handles local paths
 const Image = ({ src, alt, className, ...props }: ImageProps): ReactElement | null => {
   if (!src) return null;
