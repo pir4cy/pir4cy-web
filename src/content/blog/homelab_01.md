@@ -6,7 +6,7 @@ tags:
   - homelab
   - selfhost
 author: pir4cy
-coverImage: /images/certifications/pwpp.png
+coverImage: /images/blog/homelab-cover.png
 draft: false
 ---
 ## You Should Build a Lab
@@ -94,7 +94,7 @@ Here are some post install steps that you can take before jumping into the actio
 - **Add any extra storage devices that you may have**
 	- If you have extra drives, configure them in Proxmox as directories, LVM, or ZFS pools so your VMs and containers have more space.
 
-![Proxmox Web Page](/images/content/proxmox-1.png "Proxmox Beginning")
+![Proxmox Web Page](/images/blog/proxmox-1.png "Proxmox Beginning")
 
 ---
 
