@@ -98,4 +98,4 @@ Here are some post install steps that you can take before jumping into the actio
 
 ---
 
-In the next post, we’ll start with self hosting and explore the services I recommend running for your first setup.
+With the basics of Proxmox out of the way, the next step is to make sure your network is ready for whatever you’re going to build. In the next post, we’ll go over setting up your firewall, local DNS filtering, and the core network structure your homelab will rely on.
