@@ -1,15 +1,17 @@
 ---
-title: You Should Build a Lab
+title: "Homelab #1 - You Should Build a Lab"
 date: 2025-12-09
 excerpt: Getting Started with the Homelab Series
 tags:
   - homelab
   - selfhost
+  - Casual
+  - Tech
 author: pir4cy
 coverImage: /images/blog/homelab-cover.png
 draft: false
 ---
-## You Should Build a Lab
+# Homelab  #1 - You Should Build a Lab
 
 One of the reasons I started this “blog” is to document my journey into one of my favourite hobbies: homelabbing. 
 
