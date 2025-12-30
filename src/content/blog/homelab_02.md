@@ -160,6 +160,8 @@ Once you trust your Pi-Hole, you can go ahead and disable your router's DNS serv
 > Worst case, you can just reset the router to factory settings and fix the issue.
 
 You might have to tune your block list according to what you require. But in most cases, it should just work out of the box.
+
+If you're only here for selfhosting and are not looking to build a security lab, you can stop here as most services will be built within the LAN subnet.
 ## OPNSense
 
 I have been wanting to try OPNSense for a while now. In the selfhosted community, OPNSense has better credibility than pfSense. 
