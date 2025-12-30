@@ -21,6 +21,7 @@ const SEO: React.FC<SEOProps> = ({
   const siteUrl = window.location.origin;
   const fullTitle = title === 'Home' ? 'pir4cy | Engineer. Hacker. Builder.' : `${title} | pir4cy`;
   const socialImage = image && image.trim() !== '' ? image : '/social-image.jpg';
+  const absoluteImageUrl = socialImage.startsWith('http') ? socialImage : `${siteUrl}${socialImage}`;
   
   // Generate JSON-LD structured data for articles
   const jsonLd = type === 'article' && publishedAt ? {
@@ -28,7 +29,7 @@ const SEO: React.FC<SEOProps> = ({
     "@type": "BlogPosting",
     "headline": fullTitle,
     "description": description,
-    "image": `${siteUrl}${socialImage}`,
+    "image": absoluteImageUrl,
     "author": {
       "@type": "Person",
       "name": "pir4cy"
@@ -57,10 +58,11 @@ const SEO: React.FC<SEOProps> = ({
       <meta property="og:url" content={`${siteUrl}${canonical}`} />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={`${siteUrl}${socialImage}`} />
+      <meta property="og:image" content={absoluteImageUrl} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:type" content="image/png" />
+      <meta property="og:image:alt" content={`Cover image for ${fullTitle}`} />
       {publishedAt && <meta property="article:published_time" content={publishedAt} />}
 
       {/* Twitter */}
@@ -68,11 +70,16 @@ const SEO: React.FC<SEOProps> = ({
       <meta name="twitter:url" content={`${siteUrl}${canonical}`} />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={`${siteUrl}${socialImage}`} />
+      <meta name="twitter:image" content={absoluteImageUrl} />
       
       {/* LinkedIn specific */}
       <meta property="og:site_name" content="pir4cy" />
       <meta name="author" content="pir4cy" />
+      
+      {/* Additional meta tags for better crawling */}
+      <meta property="og:locale" content="en_US" />
+      <meta name="robots" content="index, follow" />
+      {type === 'article' && <meta property="article:author" content="pir4cy" />}
       
       {/* JSON-LD structured data */}
       {jsonLd && (

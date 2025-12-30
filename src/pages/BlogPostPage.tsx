@@ -15,7 +15,7 @@ import { Post } from '../types/blog';
 import Giscus from '@giscus/react';
 
 type ImageProps = ComponentProps<'img'>;
-<meta name="author" content="Kshitij Tripathi"></meta>
+
 // Simple image component that handles local paths
 const Image = ({ src, alt, className, ...props }: ImageProps): ReactElement | null => {
   if (!src) return null;
@@ -144,13 +144,17 @@ const BlogPostPage = (): ReactElement => {
             >
               {/* Post header */}
               <header className="mb-8">
-                {/* Cover image */}
+                {/* Cover image - positioned first for social media crawlers */}
                 {post.frontmatter.coverImage && (
-                  <div className="mb-6">
+                  <div className="mb-8">
                     <img 
                       src={post.frontmatter.coverImage} 
-                      alt={`Cover image for ${post.frontmatter.title}`}
+                      alt={`${post.frontmatter.title} - Cover Image`}
                       className="w-full max-w-4xl mx-auto rounded-lg shadow-lg"
+                      width="1200"
+                      height="630"
+                      loading="eager"
+                      style={{ aspectRatio: '1200/630', objectFit: 'cover' }}
                     />
                   </div>
                 )}
