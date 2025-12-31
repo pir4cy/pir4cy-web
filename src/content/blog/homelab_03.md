@@ -1,6 +1,6 @@
 ---
 title: "Homelab #3 - Global Access and 3rd party VPN"
-date: 2025-12-30
+date: 2025-12-31
 excerpt: With your lab setup, let's get remote access and VPN solutions set up as well. Once setup, we will have access to our internal network from anywhere in the world.
 tags:
   - Cybersecurity
