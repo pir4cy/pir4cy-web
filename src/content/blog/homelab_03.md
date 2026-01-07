@@ -91,6 +91,7 @@ Below are some key services that will greatly benefit you. I will not be going i
 	- Provides better support for documents such as ability to search within documents, tagging, OCR scanning of documents and much more.
 	- Community script: https://community-scripts.github.io/ProxmoxVE/scripts?id=paperless-ngx 
 
+
 I will go over all the services I host in another post, that will require a much longer post or maybe a video, depending on how I'm feeling.
 
 For now, I want to continue building the lab for security training. In the next post, let's start with setting up an AD environment, we'll then configure monitoring and logging from the network and the endpoints.
