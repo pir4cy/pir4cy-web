@@ -65,7 +65,7 @@ const AboutPage: React.FC = () => {
                   <div className="prose prose-invert text-lg">
                     <p>
                       First of all, thank you for taking the time to visit my website. I'm glad you're here.
-                      My name is Kshitij - known online as pir4cy. I'm a tech enthusiast specializing in cybersecurity.  
+                      My name is Kshitij - known online as pir4cy. I'm a tech enthusiast specializing in cybersecurity. 
                     </p>
                     <p>
                      I spend most of my time digging into offensive security, writing code, and exploring how systems behave 

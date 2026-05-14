@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Github, Twitter, Linkedin, Mail } from 'lucide-react';
+import { Github, Twitter, Mail } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -37,17 +37,9 @@ const Footer: React.FC = () => {
             >
               <Twitter className="h-5 w-5" />
             </a>
+
             <a 
-              href="https://linkedin.com/in/pir4cy" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-dark-400 hover:text-white transition-colors duration-200"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="h-5 w-5" />
-            </a>
-            <a 
-              href="mailto:kt.pir4cy@pm.me" 
+              href="mailto:pir4cy@duck.com" 
               className="text-dark-400 hover:text-white transition-colors duration-200"
               aria-label="Email"
             >

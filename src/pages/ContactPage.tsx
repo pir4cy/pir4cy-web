@@ -185,15 +185,6 @@ const ContactPage: React.FC = () => {
                     <X className="h-5 w-5 text-primary-500" />
                     <span>Twitter</span>
                   </a>
-                  <a 
-                    href="https://linkedin.com/in/pir4cy" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="flex items-center gap-3 text-dark-300 hover:text-white transition-colors"
-                  >
-                    <Linkedin className="h-5 w-5 text-primary-500" />
-                    <span>LinkedIn</span>
-                  </a>
                 </div>
               </motion.div>
             </div>
