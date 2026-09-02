@@ -86,11 +86,9 @@ If you have BurpSuite Pro, you can do this directly from Intruder and call it a 
     `room_number=ROOM&last_name=LNAME`.  
     We will use these variables when launching our attack.
 2. Let's generate a quick numbered wordlist for room numbers. To save time, I will only do 101-200
-
-```
-python3 -c 'for i in range(101,200): print(i)' > room1.txt
-```
-
+    ```
+    python3 -c 'for i in range(101,200): print(i)' > room1.txt
+    ```
 3. The next part is running ffuf with the required wordlists and watching the magic happen.
 
 ```
