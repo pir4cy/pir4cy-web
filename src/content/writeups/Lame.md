@@ -3,9 +3,9 @@ title: 'HTB: Lame'
 date: '2019-03-25'
 excerpt: 'Lame is an easy Linux machine, requiring only one exploit to obtain root access. It was the first machine published on Hack The Box and was often the first machine for new users prior to its retirement.'
 readingTime: 1
-tags: ['HTB', 'Writeup', 'HTB', 'Writeup', 'Easy', 'Linux', 'Pwn']
+tags: ['HTB', 'Writeup', 'Easy', 'Linux', 'Pwn']
 author: 'pir4cy'
-coverImage: '/images/htb/covers/lame-cover.png'
+coverImage: '/images/writeups/covers/lame-cover.png'
 ---
 
 # LAME
@@ -20,7 +20,7 @@ Difficulty: Easy
 
 ### NMAP
 
-![Nmap](/images/htb/machines/Lame/nmap.png "NMAP")
+![Nmap](/images/writeups/machines/Lame/nmap.png "NMAP")
 
 We see that we have 4 open ports:  
 
@@ -35,7 +35,7 @@ First thing that came to mind was logging in to the FTP, but that wasn't fruitfu
 sure enough we had a backdoor exploit that could be used to get in.  
 But it failed:
 
-![FTP](/images/htb/machines/Lame/ftp.png "FTP")
+![FTP](/images/writeups/machines/Lame/ftp.png "FTP")
 
 So we move on to the other exploitable service I could see: `Samba`
 
@@ -43,11 +43,11 @@ So we move on to the other exploitable service I could see: `Samba`
 
 A quick google of `Samba 3.0.20 - Debian` shows
 
-![Google Search](/images/htb/machines/Lame/googlesamba.png "Google Result")
+![Google Search](/images/writeups/machines/Lame/googlesamba.png "Google Result")
 
 The first link directly gives us everything we need to pop this box
 
-![Rapid7](/images/htb/machines/Lame/rapidpage.png "Rapid7")
+![Rapid7](/images/writeups/machines/Lame/rapidpage.png "Rapid7")
 
 ## Exploit
 
@@ -55,8 +55,8 @@ A simple and straightforward exploit.
   * set RHOST `10.10.10.3`
   * run
   
-![Exploiting](/images/htb/machines/Lame/msfconsole.png "MSFConsole")
+![Exploiting](/images/writeups/machines/Lame/msfconsole.png "MSFConsole")
 
 Finally, we obtain a root shell and hence our flags
 
-![Pwnage](/images/htb/machines/Lame/owned.png "Owned")
+![Pwnage](/images/writeups/machines/Lame/owned.png "Owned")

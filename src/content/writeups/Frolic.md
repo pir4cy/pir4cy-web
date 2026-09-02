@@ -3,9 +3,9 @@ title: 'HTB: Frolic'
 date: '2019-03-23'
 excerpt: 'Frolic is not overly challenging, however a great deal of enumeration is required due to the amount of services and content running on the machine. The privilege escalation features an easy difficulty return-oriented programming (ROP) exploitation challenge, and is a great learning experience for beginners.'
 readingTime: 4
-tags: ['HTB', 'Writeup', 'HTB', 'Writeup', 'Medium', 'Linux', 'Pwn']
+tags: ['HTB', 'Writeup', 'Medium', 'Linux', 'Pwn']
 author: 'pir4cy'
-coverImage: '/images/htb/covers/frolic-cover.png'
+coverImage: '/images/writeups/covers/frolic-cover.png'
 ---
 
 # FROLIC
@@ -18,20 +18,20 @@ Difficulty: Medium
 ## System Enumeration
 
 ### NMAP
-![Nmap](/images/htb/machines/Frolic/frolicnmap.png "NMAP")
+![Nmap](/images/writeups/machines/Frolic/frolicnmap.png "NMAP")
 
 We see two different ports that we can access, `1880` and `9999`
 
 ### Port 1880: Node-RED service
-![Coloured Service](/images/htb/machines/Frolic/frolicRED.png "RED Service")
+![Coloured Service](/images/writeups/machines/Frolic/frolicRED.png "RED Service")
 
 ### Port 9999: nginx service
-![nginx](/images/htb/machines/Frolic/frolicnginx.png "NGINX")
+![nginx](/images/writeups/machines/Frolic/frolicnginx.png "NGINX")
 
 ## Enumerating Port 9999 with Dirbuster
 
 I used the dirb wordlists `big.txt`
-![dirbuster](/images/htb/machines/Frolic/frolicdirbuster.png "Dirbuster")
+![dirbuster](/images/writeups/machines/Frolic/frolicdirbuster.png "Dirbuster")
 
 Looking up all areas with response code 200, which we can access without restrictions
 
@@ -77,8 +77,8 @@ AAAJABgAAAAAAAEAAACkgQAAAABpbmRleC5waHBVVAUAA4V8p1t1eAsAAQQAAAAABAAAAABQSwUG AAA
 
 This looks like base64 encoding. Using `https://www.freeformatter.com/base64-encoder.html` and downloading the resulting zip, we see that its locked. Using fcrackzip to crack zip passwords, we get
 
-![Password ZIP](/images/htb/machines/Frolic/froliczip.png "Locked Zip")
-![Using FCrackZip](/images/htb/machines/Frolic/frolicfcrack.png "FCrackZip")
+![Password ZIP](/images/writeups/machines/Frolic/froliczip.png "Locked Zip")
+![Using FCrackZip](/images/writeups/machines/Frolic/frolicfcrack.png "FCrackZip")
 
 Opening up `index.php`, we get
 ```
@@ -107,18 +107,18 @@ A quick google search shows that this is brainfuck, decoding which gets us a str
 This string did not work as password on the `RED` service so I tried enumerating again with a different wordlist, which gave me a new directory
 
 ### /playsms/
-![PlaySMS](/images/htb/machines/Frolic/frolicplaysms.png "PlaySMS")
+![PlaySMS](/images/writeups/machines/Frolic/frolicplaysms.png "PlaySMS")
 Using the username `admin` and password `idkwhatispass`, we logged in
 
-![Admin Panel](/images/htb/machines/Frolic/frolicplaysmslogin.png "LoggedIn Playsms")
+![Admin Panel](/images/writeups/machines/Frolic/frolicplaysmslogin.png "LoggedIn Playsms")
 
 Using metasploit, I was able to gain a reverse shell through playsms service
 
-![MSFConsole](/images/htb/machines/Frolic/frolicplaysmsexploit.png "Metasploit")
-![Rev Shell Obtained](/images/htb/machines/Frolic/frolicrshell.png "Reverse Shell")
+![MSFConsole](/images/writeups/machines/Frolic/frolicplaysmsexploit.png "Metasploit")
+![Rev Shell Obtained](/images/writeups/machines/Frolic/frolicrshell.png "Reverse Shell")
 
 ## User Exposed
-![User Exposed](/images/htb/machines/Frolic/frolicuser.png "User")
+![User Exposed](/images/writeups/machines/Frolic/frolicuser.png "User")
 
 Finally got user
 
@@ -126,7 +126,7 @@ Finally got user
 
 Following simple steps to check for escalation, I first check for SUID binaries in the system which can be exploited to escalate privileges:
 
-![./ROP Found](/images/htb/machines/Frolic/frolicsuid.png "SUID rop found")
+![./ROP Found](/images/writeups/machines/Frolic/frolicsuid.png "SUID rop found")
 
 Finding `rop` means we can exploit it using ret2lib attack and gain root. Downloaded the binary to my local machine(by using the `download <file>` command in meterpreter) to debug it using gdb-peda.
 
@@ -136,7 +136,7 @@ Step 1: Creating a pattern of 100 characters
       `AAA%AAsAABAA$AAnAACAA-AA(AADAA;AA)AAEAAaAA0AAFAAbAA1AAGAAcAA2AAHAAdAA3AAIAAeAA4AAJAAfAA5AAKAAgAA6AAL`
 Step 2: Finding buffer limit using pattern offset.
 
-![pattern_offset](/images/htb/machines/Frolic/frolicpatternfound.png "Finding offset")
+![pattern_offset](/images/writeups/machines/Frolic/frolicpatternfound.png "Finding offset")
 
 ### Using libc-search
 
@@ -147,12 +147,12 @@ Step 4: `gcc libc-search.c -o libc-search -lc -ldl`
 Step 5: Search for system, exit using -s   
 Step 6: Search for /bin/sh using -p (set libbase using -b)  
 
-![LIBC-Search](/images/htb/machines/Frolic/froliclibc.png "Libc Enumeration")
+![LIBC-Search](/images/writeups/machines/Frolic/froliclibc.png "Libc Enumeration")
 
 ### Creating Payload
 The addresses are converted to little endian.
 
-![Address List](/images/htb/machines/Frolic/frolicadd.png "Address List")
+![Address List](/images/writeups/machines/Frolic/frolicadd.png "Address List")
 
 Now, we simply create a python one-line payload to pass as our argument to the `rop` binary.
 ```
@@ -166,5 +166,5 @@ Running
 ```
 We obtain root
 
-![Pwnage](/images/htb/machines/Frolic/frolicroot.png "Rooted")
+![Pwnage](/images/writeups/machines/Frolic/frolicroot.png "Rooted")
 

