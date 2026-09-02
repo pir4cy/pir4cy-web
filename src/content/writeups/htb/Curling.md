@@ -133,7 +133,7 @@ Opening them up, we can see the contents of both files:
   * input
     ![input file](/images/writeups/machines/Curling/inputFile.png "Input File")
   * report
-    ![input file](/images/writeups/machines/Curling/reportFile.png "Report File")
+    ![input file](/images/writeups/machines/Curling/reportFile.png "Input File")
 
 
 Now, there are 2 ways to get the contents of `root.txt`.  

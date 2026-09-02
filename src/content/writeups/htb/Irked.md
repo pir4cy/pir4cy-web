@@ -69,5 +69,3 @@ Since there's no `listusers`, we can create one and use it to elevate our privil
 Finally, calling `viewuser`, we finally get root  
 
 ![Rooted](/images/writeups/machines/Irked/rooted.png "Rooted")
-
-

@@ -87,6 +87,5 @@ Now we simply ssh, with the password that we got as root and we're in
 
 ![Rooted](/images/writeups/machines/Beep/owned.png "Pwnage")
 
-
 Simply traverse to the `/root` directory for `root.txt` and to `home/fanis` for `user.txt`
 

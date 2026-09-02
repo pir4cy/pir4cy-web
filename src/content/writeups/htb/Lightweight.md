@@ -41,7 +41,7 @@ After logging in, there was nothing special to look for in the box, so I tried a
 ![tcpdump](/images/writeups/machines/Lightweight/tcpdump.png "TCP Dump")
 
 We see traffic being captured, when we open `http://10.10.10.119/status.php`  
-    
+   
 Using `scp` to transfer the captured pcap file to my local pc, I opened it up in wiresharkhttps://gist.github.com/bcoles/421cc413d07cd9ba7855
 
 #### WireShark

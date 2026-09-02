@@ -15,7 +15,13 @@ const blogPosts = import.meta.glob('../content/blog/*.md', {
   import: 'default'
 }) as Record<string, string>;
 
-const htbPosts = import.meta.glob('../content/writeups/*.md', {
+const htbPosts = import.meta.glob('../content/writeups/htb/*.md', {
+  eager: true,
+  query: '?raw', 
+  import: 'default'
+}) as Record<string, string>;
+
+const hacksmarterPosts = import.meta.glob('../content/writeups/hacksmarter/*.md', {
   eager: true,
   query: '?raw',
   import: 'default'
@@ -77,6 +83,14 @@ export const getPosts = async (): Promise<Post[]> => {
       }
     }
 
+    // Process HackSmarter writeups
+    for (const [path, content] of Object.entries(hacksmarterPosts)) {
+      const post = parsePost(path, content);
+      if (post) {
+        posts.push(post);
+      }
+    }
+
     // Sort posts by date
     const sortedPosts = posts.sort((a, b) => 
       new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
@@ -89,7 +103,10 @@ export const getPosts = async (): Promise<Post[]> => {
 };
 
 // For backward compatibility
-export const posts = Object.entries(blogPosts)
-  .map(([path, content]) => parsePost(path, content))
+export const posts = [
+  ...Object.entries(blogPosts).map(([path, content]) => parsePost(path, content)),
+  ...Object.entries(htbPosts).map(([path, content]) => parsePost(path, content)),
+  ...Object.entries(hacksmarterPosts).map(([path, content]) => parsePost(path, content)),
+]
   .filter((post): post is Post => post !== null && !post.frontmatter.draft)
   .sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
