@@ -15,7 +15,7 @@ const blogPosts = import.meta.glob('../content/blog/*.md', {
   import: 'default'
 }) as Record<string, string>;
 
-const htbPosts = import.meta.glob('../content/htb/*.md', {
+const htbPosts = import.meta.glob('../content/writeups/*.md', {
   eager: true,
   query: '?raw',
   import: 'default'
