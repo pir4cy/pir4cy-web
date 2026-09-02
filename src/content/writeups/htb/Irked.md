@@ -5,7 +5,7 @@ excerpt: 'Irked is a pretty simple and straight-forward box which requires basic
 readingTime: 1
 tags: ['HTB', 'Writeup', 'Easy', 'Linux']
 author: 'pir4cy'
-coverImage: '/images/writeups/covers/irked-cover.png'
+coverImage: '/images/writeups/covers/htb/irked-cover.png'
 ---
 
 # IRKED
@@ -20,7 +20,7 @@ Difficulty: Easy
 ### NMAP
 
 Using `nmap`, we check for open ports on the machine  
-![Nmap](/images/writeups/machines/Irked/nmap.png "nmap")
+![Nmap](/images/writeups/machines/htb/Irked/nmap.png "nmap")
 
 Noticing a common and old backdoor which can be exploited, I went directly for it.  
 
@@ -28,13 +28,13 @@ Noticing a common and old backdoor which can be exploited, I went directly for i
 
 Looking up `UnrealIRCD`, we find an existing exploit in metasploit, which makes our work easier than it has to be.  
 
-![Unreal Exploit Found](/images/writeups/machines/Irked/unrealExploitFound.png "Unreal Exploit Found")
+![Unreal Exploit Found](/images/writeups/machines/htb/Irked/unrealExploitFound.png "Unreal Exploit Found")
 
 ### Using the Exploit
 
-![Unreal Exploit Config](/images/writeups/machines/Irked/unrealExploitConfig.png "Unreal Exploit Config")
+![Unreal Exploit Config](/images/writeups/machines/htb/Irked/unrealExploitConfig.png "Unreal Exploit Config")
 
-![Unreal Exploited](/images/writeups/machines/Irked/unrealExploited.png "Unreal Exploited")
+![Unreal Exploited](/images/writeups/machines/htb/Irked/unrealExploited.png "Unreal Exploited")
 
 And we are in!   
 
@@ -51,21 +51,21 @@ Linux irked 3.16.0-6-686-pae #1 SMP Debian 3.16.56-1+deb8u1 (2018-05-08) i686 GN
 ```
 Looking for SUID binaries using  
 `find / -perm -4000 -type f 2>/dev/null`
-![SUID](/images/writeups/machines/Irked/suidfound.png "SUID found")
+![SUID](/images/writeups/machines/htb/Irked/suidfound.png "SUID found")
 The `viewuser` binary seems to be different than usual, let's check it out.  
-![view user](/images/writeups/machines/Irked/viewUser.png "ViewUser")
+![view user](/images/writeups/machines/htb/Irked/viewUser.png "ViewUser")
 
 It's just calling `/tmp/listusers`  
 
 Checking the contents of `tmp`
-![ls tmp](/images/writeups/machines/Irked/lstmp.png "tmp/ ls")
+![ls tmp](/images/writeups/machines/htb/Irked/lstmp.png "tmp/ ls")
 
 Since there's no `listusers`, we can create one and use it to elevate our privileges.  
-![list users](/images/writeups/machines/Irked/listusers.png "List users")
-![Permissions](/images/writeups/machines/Irked/permissionlistuser.png "Permissions")
+![list users](/images/writeups/machines/htb/Irked/listusers.png "List users")
+![Permissions](/images/writeups/machines/htb/Irked/permissionlistuser.png "Permissions")
 
 ## Rooted
 
 Finally, calling `viewuser`, we finally get root  
 
-![Rooted](/images/writeups/machines/Irked/rooted.png "Rooted")
+![Rooted](/images/writeups/machines/htb/Irked/rooted.png "Rooted")

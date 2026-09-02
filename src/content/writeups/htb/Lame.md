@@ -5,7 +5,7 @@ excerpt: 'Lame is an easy Linux machine, requiring only one exploit to obtain ro
 readingTime: 1
 tags: ['HTB', 'Writeup', 'Easy', 'Linux', 'Pwn']
 author: 'pir4cy'
-coverImage: '/images/writeups/covers/lame-cover.png'
+coverImage: '/images/writeups/covers/htb/lame-cover.png'
 ---
 
 # LAME
@@ -20,7 +20,7 @@ Difficulty: Easy
 
 ### NMAP
 
-![Nmap](/images/writeups/machines/Lame/nmap.png "NMAP")
+![Nmap](/images/writeups/machines/htb/Lame/nmap.png "NMAP")
 
 We see that we have 4 open ports:  
 
@@ -35,7 +35,7 @@ First thing that came to mind was logging in to the FTP, but that wasn't fruitfu
 sure enough we had a backdoor exploit that could be used to get in.  
 But it failed:
 
-![FTP](/images/writeups/machines/Lame/ftp.png "FTP")
+![FTP](/images/writeups/machines/htb/Lame/ftp.png "FTP")
 
 So we move on to the other exploitable service I could see: `Samba`
 
@@ -43,11 +43,11 @@ So we move on to the other exploitable service I could see: `Samba`
 
 A quick google of `Samba 3.0.20 - Debian` shows
 
-![Google Search](/images/writeups/machines/Lame/googlesamba.png "Google Result")
+![Google Search](/images/writeups/machines/htb/Lame/googlesamba.png "Google Result")
 
 The first link directly gives us everything we need to pop this box
 
-![Rapid7](/images/writeups/machines/Lame/rapidpage.png "Rapid7")
+![Rapid7](/images/writeups/machines/htb/Lame/rapidpage.png "Rapid7")
 
 ## Exploit
 
@@ -55,8 +55,8 @@ A simple and straightforward exploit.
   * set RHOST `10.10.10.3`
   * run
   
-![Exploiting](/images/writeups/machines/Lame/msfconsole.png "MSFConsole")
+![Exploiting](/images/writeups/machines/htb/Lame/msfconsole.png "MSFConsole")
 
 Finally, we obtain a root shell and hence our flags
 
-![Pwnage](/images/writeups/machines/Lame/owned.png "Owned")
+![Pwnage](/images/writeups/machines/htb/Lame/owned.png "Owned")

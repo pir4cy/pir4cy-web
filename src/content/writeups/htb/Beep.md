@@ -5,7 +5,7 @@ excerpt: 'Beep has a very large list of running services, which can make it a bi
 readingTime: 1
 tags: ['htb', 'Writeup', 'Easy', 'Linux', 'Web', 'Pwn']
 author: 'pir4cy'
-coverImage: '/images/writeups/covers/beep-cover.png'
+coverImage: '/images/writeups/covers/htb/beep-cover.png'
 ---
 
 # Beep
@@ -19,12 +19,12 @@ coverImage: '/images/writeups/covers/beep-cover.png'
 
 ### NMAP
 
-![Beep Nmap](/images/writeups/machines/Beep/nmap.png "NMAP")
+![Beep Nmap](/images/writeups/machines/htb/Beep/nmap.png "NMAP")
 
 
 ### Web Page
 
-![Beep WebPage](/images/writeups/machines/Beep/webpage.png "Web Page")
+![Beep WebPage](/images/writeups/machines/htb/Beep/webpage.png "Web Page")
 
 
 ## Exploitation
@@ -32,12 +32,12 @@ coverImage: '/images/writeups/covers/beep-cover.png'
 Since our webpage is an Elastix login, we should simply check if an exploit for elastix exists.  
 Using `searchsploit elastix` we find:
 
-![SearchSploit](/images/writeups/machines/Beep/searchsploit.png "Searchsploit Output")
+![SearchSploit](/images/writeups/machines/htb/Beep/searchsploit.png "Searchsploit Output")
 
 
 Trying out the local file inclusion vulnerability
 
-![Exploit Documentation](/images/writeups/machines/Beep/exploitcode.png "LFI graph.php")
+![Exploit Documentation](/images/writeups/machines/htb/Beep/exploitcode.png "LFI graph.php")
 
 
 `LFI Exploit: /vtigercrm/graph.php?current_language=../../../../../../../..//etc/amportal.conf%00&module=Accounts&action`  
@@ -45,7 +45,7 @@ Trying out the local file inclusion vulnerability
 After appending this address to the web portal `10.10.10.7` we can see the `amportal.conf` file which consists of important user data.  
 Simply viewing the source code, we see the data in a readable format
 
-![Exploit Page Source Code](/images/writeups/machines/Beep/exploitpage.png "Source Code")
+![Exploit Page Source Code](/images/writeups/machines/htb/Beep/exploitpage.png "Source Code")
 
 
 So we make 2 lists for possible users and passwords
@@ -78,14 +78,14 @@ After creating the lists of users and passwords we simply run Hydra to check pos
 Using the command:  
 `hydra -L users -P pws ssh://10.10.10.7`
 
-![Hydra](/images/writeups/machines/Beep/hydra.png "Hydra")
+![Hydra](/images/writeups/machines/htb/Beep/hydra.png "Hydra")
 
 
 ### Root Owned
 
 Now we simply ssh, with the password that we got as root and we're in
 
-![Rooted](/images/writeups/machines/Beep/owned.png "Pwnage")
+![Rooted](/images/writeups/machines/htb/Beep/owned.png "Pwnage")
 
 Simply traverse to the `/root` directory for `root.txt` and to `home/fanis` for `user.txt`
 

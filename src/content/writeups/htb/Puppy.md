@@ -17,7 +17,7 @@ tags:
   - dpapi
   - credentials
 author: pir4cy
-coverImage: /images/writeups/covers/puppy-cover.png
+coverImage: /images/writeups/covers/htb/puppy-cover.png
 draft: false
 ---
 

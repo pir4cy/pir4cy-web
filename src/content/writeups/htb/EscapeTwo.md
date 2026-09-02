@@ -20,7 +20,7 @@ tags:
   - certipy
   - certificate-templates
 author: pir4cy
-coverImage: /images/writeups/covers/escapetwo-cover.png
+coverImage: /images/writeups/covers/htb/escapetwo-cover.png
 draft: false
 ---
 
@@ -35,7 +35,7 @@ draft: false
 > - ca_svc is part of the CERTPUBLISHERS group, allowing us to exploit the DunderMifflin Certificate Template.
 > - Finally, using the template vulnerability, we obtain the Administrator hash and gain system access.
 > 
-![Attack Path](/images/writeups/machines/EscapeTwo/attack-path.png)
+![Attack Path](/images/writeups/machines/htb/EscapeTwo/attack-path.png)
 
 > **Conclusion:**
 > This box demonstrates a realistic attack chain involving credential discovery, Active Directory permission abuse, and certificate template exploitation. It showcases important security weaknesses in certificate templates that are often overlooked. 

@@ -5,7 +5,7 @@ excerpt: 'Teacher is a medium difficulty machine, which teaches techniques for i
 readingTime: 3
 tags: ['HTB', 'Writeup', 'Easy', 'Medium', 'Linux', 'Web']
 author: 'pir4cy'
-coverImage: '/images/writeups/covers/teacher-cover.png'
+coverImage: '/images/writeups/covers/htb/teacher-cover.png'
 ---
 
 # TEACHER
@@ -19,14 +19,14 @@ Difficulty: Easy/Medium
 
 ### NMAP
 Using `nmap`, we check for open ports to access  
-![Nmap](/images/writeups/machines/Teacher/nmap.png "nmap")
+![Nmap](/images/writeups/machines/htb/Teacher/nmap.png "nmap")
 
 Only `Port 80` is up.
 
 ### Dirbuster
 To enumerate the website we use, `dirbuster`  
-![Dirbuster](/images/writeups/machines/Teacher/dirbuster.png "dirbuster")
+![Dirbuster](/images/writeups/machines/htb/Teacher/dirbuster.png "dirbuster")
 
 ### Website
 
-![Website Front](/images/writeups/machines/Teacher/websitefront.png "Website")
+![Website Front](/images/writeups/machines/htb/Teacher/websitefront.png "Website")

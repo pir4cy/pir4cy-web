@@ -5,7 +5,7 @@ excerpt: 'October is a fairly easy machine to gain an initial foothold on, howev
 readingTime: 3
 tags: ['HTB', 'Writeup', 'Medium', 'Linux', 'Web', 'Pwn']
 author: 'pir4cy'
-coverImage: '/images/writeups/covers/october-cover.png'
+coverImage: '/images/writeups/covers/htb/october-cover.png'
 ---
 
 # October
@@ -19,19 +19,19 @@ coverImage: '/images/writeups/covers/october-cover.png'
  
 ### Nmap
 
-![Nmap](/images/writeups/machines/October/nmap.png "Nmap")
+![Nmap](/images/writeups/machines/htb/October/nmap.png "Nmap")
 
 ### Dirbuster
 
-![Dirbuster](/images/writeups/machines/October/dirbuster.png "Dirbuster")
+![Dirbuster](/images/writeups/machines/htb/October/dirbuster.png "Dirbuster")
 
 ### WebPortal
 
-![Web Portal](/images/writeups/machines/October/webportal.png "Vanilla CMS")
+![Web Portal](/images/writeups/machines/htb/October/webportal.png "Vanilla CMS")
 
 #### Backend
 
-![Web Backend](/images/writeups/machines/October/backend.png "October Backend")
+![Web Backend](/images/writeups/machines/htb/October/backend.png "October Backend")
 
 
 ## Exploitation
@@ -40,7 +40,7 @@ Trying the default user and password, i.e, `admin` and `admin`, we manage to get
 This opens up the possibility of a reverse shell upload.  
 Since the already uploaded file is in php5, I renamed my shell from php to php5, just to ensure that I'll be successful in uploading a shell.  
 
-![PHP Uploaded](/images/writeups/machines/October/uploadphp.png "PHP Shell")
+![PHP Uploaded](/images/writeups/machines/htb/October/uploadphp.png "PHP Shell")
 
 We create a netcat listener on our local machine using `nc -lvnp 1234`.  
 Click on the uploaded file and view it.  
@@ -51,7 +51,7 @@ And voila! We have a shell.
 
 Simple enumeration let's us find `user.txt` and read it even though we are `www-data`.
 
-![User Exposed](/images/writeups/machines/October/userExposed.png "Exposed User")
+![User Exposed](/images/writeups/machines/htb/October/userExposed.png "Exposed User")
 
 ## Privilege Escalation
 
@@ -70,8 +70,8 @@ To debug further, I downloaded the binary to my local machine using base64 conve
 
 Using `pattern_create 200`, we create a unique pattern of 200 characters and pass it to ovrflw as argument  
 
-![Segmentation Fault](/images/writeups/machines/October/segfault.png "Seg Fault")  
+![Segmentation Fault](/images/writeups/machines/htb/October/segfault.png "Seg Fault")  
 
 And we are root:
 
-![Pwnage](/images/writeups/machines/October/owned.png "Rooted")
+![Pwnage](/images/writeups/machines/htb/October/owned.png "Rooted")
