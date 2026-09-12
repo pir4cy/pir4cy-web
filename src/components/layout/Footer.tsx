@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex flex-col items-center md:items-start">
             <p className="text-dark-400 text-sm">
-              Engineer. Hacker. Builder. Always learning.
+              Cybersecurity Researcher | Privacy Nut
             </p>
             <p className="text-dark-500 text-sm mt-2">
               © {currentYear} pir4cy. All rights reserved.
