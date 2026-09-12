@@ -12,14 +12,14 @@ interface SEOProps {
 
 const SEO: React.FC<SEOProps> = ({
   title,
-  description = 'Engineer. Hacker. Builder. Always learning. Personal portfolio and blog of pir4cy.',
+  description = 'Cybersecurity Researcher. Always learning. Personal portfolio and blog of pir4cy.',
   canonical = '',
   image = '/social-image.jpg',
   type = 'website',
   publishedAt,
 }) => {
   const siteUrl = window.location.origin;
-  const fullTitle = title === 'Home' ? 'pir4cy | Engineer. Hacker. Builder.' : `${title} | pir4cy`;
+  const fullTitle = title === 'Home' ? 'pir4cy | Cybersecurity Researcher' : `${title} | pir4cy`;
   const socialImage = image && image.trim() !== '' ? image : '/social-image.jpg';
   const absoluteImageUrl = socialImage.startsWith('http') ? socialImage : `${siteUrl}${socialImage}`;
   
