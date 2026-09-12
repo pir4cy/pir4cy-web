@@ -117,7 +117,8 @@ with open("passwords.txt", "r", errors="ignore") as f:
 s = requests.Session()
 
 for password in passwords:
-    # If you face rate limits, add a timeout. 
+    # If you face rate limits, increase the timeout. 
+    time.sleep(10)
     # Get fresh session + CSRF token
     r = s.get(URL)
 
