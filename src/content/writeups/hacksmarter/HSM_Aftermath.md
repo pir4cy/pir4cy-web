@@ -27,33 +27,40 @@ we got names.txt and passwords.txt
 
 As always, starting with nmap
 
-![nmap.png](/images/writeups/machines/hacksmarter/HackSmarter_Aftermath/nmap.png "Nmap")
+![nmap.png](/images/writeups/machines/hacksmarter/HSM_Aftermath/nmap.png "Nmap")
 
 I added the following to my hosts file for ease:
 
-`10.0.29.56        aftermath.local`
+```bash
+10.0.29.56        aftermath.local
+```
 
 ## Enumeration
 
 Let's take a look at what's hosted on port 80.
 
-![main-website.png](/images/writeups/machines/hacksmarter/HackSmarter_Aftermath/main-website.png)
+![main-website.png](/images/writeups/machines/hacksmarter/HSM_Aftermath/main-website.png)
 
 We just have a video running on port 80 - `22.mp4`. I reviewed the source code as well but nothing of interest was found.
 
 With that I moved on to performing a directory fuzz to see if we can find other potential directories.
 
-`ffuf -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt -u http://aftermath.local/FUZZ`
+```bash
+ffuf -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt -u http://aftermath.local/FUZZ
+```
 
-![ffuf-directory-found.png](/images/writeups/machines/hacksmarter/HackSmarter_Aftermath/ffuf-directory-found.png)
+![ffuf-directory-found.png](/images/writeups/machines/hacksmarter/HSM_Aftermath/ffuf-directory-found.png)
 
 ### Roundcube
 
 Initially, we had a list of usernames and passwords, which were not validated. Let's see if we can validate the credentials via Roundcube.  
-![roundcube login](/images/writeups/machines/hacksmarter/HackSmarter_Aftermath/roundcube-login-1.png)
+
+![roundcube login](/images/writeups/machines/hacksmarter/HSM_Aftermath/roundcube-login-1.png)
 
 Let's capture this request using Caido and see if we can brute force this login.  
-![csrf-protection-roundcube.png](/images/writeups/machines/hacksmarter/HackSmarter_Aftermath/csrf-protection-roundcube.png)  
+
+![csrf-protection-roundcube.png](/images/writeups/machines/hacksmarter/HSM_Aftermath/csrf-protection-roundcube.png)  
+
 With the CSRF token in place, automated brute force will be hard to perform. Since we have to validate username AND password this becomes a tougher route.
 
 ### SMTP
@@ -63,7 +70,8 @@ From our nmap output, we can see the `VRFY` command is accepted.
 
 1.  Connect to the SMTP service using `nc -v aftermath.local 25`
 2.  Use `vrfy <username>` and verify users from the `names.txt` file provided initially.  
-    ![smtp-enum-manual.png](/images/writeups/machines/hacksmarter/HackSmarter_Aftermath/smtp-enum-manual.png)
+
+    ![smtp-enum-manual.png](/images/writeups/machines/hacksmarter/HSM_Aftermath/smtp-enum-manual.png)
 
 Since the file is huge, I wouldn't want to go through the username list manually. It's better to automate this.
 
@@ -73,14 +81,15 @@ I ended up using a quick while loop to connect to the SMTP service, `VRFY` the u
 
 > At first I figured it would be quite simple to spray all the usernames with `vrfy` at the beginning but the server kept rate-limiting me.
 
-```
+```bash
 while read user; do
-    printf "VRFY %s\r\n" "$user" | nc -w 2 aftermath.local 25 | grep -vE '^(550|220)'
+    printf "VRFY %s\r\nQUIT" "$user" | nc -w 2 aftermath.local 25 | grep -vE '^(550|220)'
 done < names.txt
 ```
 
 With this, we are suppressing the reject code and the banner code. So hopefully, we will only see the valid user response.  
-![smtp-enum-1.png](/images/writeups/machines/hacksmarter/HackSmarter_Aftermath/smtp-enum-1.png)
+
+![smtp-enum-1.png](/images/writeups/machines/hacksmarter/HSM_Aftermath/smtp-enum-1.png)
 
 Valid user found: `maria`
 
@@ -88,11 +97,12 @@ Valid user found: `maria`
 
 There's also a tool called `smtp-user-enum` in kali linux. Follows a simple syntax:
 
-```
+```bash
 smtp-user-enum -M VRFY -U names.txt -t aftermath.local
 ```
 
-![smtp-enum-2.png](/images/writeups/machines/hacksmarter/HackSmarter_Aftermath/smtp-enum-2.png)  
+![smtp-enum-2.png](/images/writeups/machines/hacksmarter/HSM_Aftermath/smtp-enum-2.png)  
+
 This method is much faster! Definitely a good tool to have in your toolkit.
 
 ## Foothold
@@ -104,7 +114,7 @@ We can do a password spray by requesting a new token before each POST request an
 
 This task is best suited for Python. Wrote a quick script based on our POST request.
 
-```
+```python
 import requests
 from bs4 import BeautifulSoup
 
@@ -145,18 +155,20 @@ for password in passwords:
 ```
 
 and boom! we got our password:  
-![password-found.png](/images/writeups/machines/hacksmarter/HackSmarter_Aftermath/password-found.png)
+
+![password-found.png](/images/writeups/machines/hacksmarter/HSM_Aftermath/password-found.png)
 
 ## Flag #1
 
 Let's login and see what we can find from this maria user.  
-![flag-1.png](/images/writeups/machines/hacksmarter/HackSmarter_Aftermath/flag-1.png)
+
+![flag-1.png](/images/writeups/machines/hacksmarter/HSM_Aftermath/flag-1.png)
 
 There's flag #1.
 
 Let's enumerate further and find out as much as we can.
 
-![roundcube-version.png](/images/writeups/machines/hacksmarter/HackSmarter_Aftermath/roundcube-version.png)
+![roundcube-version.png](/images/writeups/machines/hacksmarter/HSM_Aftermath/roundcube-version.png)
 
 For this version, we were able to quickly find a known vulnerability (CVE-2025-49113) and lucky for us, there's a PoC available on Github:
 
@@ -166,24 +178,29 @@ For this version, we were able to quickly find a known vulnerability (CVE-2025-4
 ### Exploitation
 
 The PoC makes this very simple, we can simply run the php script and execute our commands on the target. I used penelope for my listener and ran a simple bash reverse shell.  
-![rce-shell.png](/images/writeups/machines/hacksmarter/HackSmarter_Aftermath/rce-shell.png)
+
+![rce-shell.png](/images/writeups/machines/hacksmarter/HSM_Aftermath/rce-shell.png)
 
 ## Privilege Escalation - from www-data to root
 
 With this shell, I was still unable to review files for any users, so I started testing for any potential ways to perform privesc.  
 I ran `linenum.sh` on the host to flag for potential privesc routes to take:  
-![privesc-found.png](/images/writeups/machines/hacksmarter/HackSmarter_Aftermath/privesc-found.png)
+
+![privesc-found.png](/images/writeups/machines/hacksmarter/HSM_Aftermath/privesc-found.png)
 
 Turns out `sudo -l` was all we needed!
 
 When it comes to Unix executables that can be used for privesc, it's always a good idea to check our trusty https://gtfobins.org/.  
-![apt-get-sudo.png](/images/writeups/machines/hacksmarter/HackSmarter_Aftermath/apt-get-sudo.png)
+
+![apt-get-sudo.png](/images/writeups/machines/hacksmarter/HSM_Aftermath/apt-get-sudo.png)
 
 With that, we can now privesc to root!  
-![root.png](/images/writeups/machines/hacksmarter/HackSmarter_Aftermath/root.png)
+
+![root.png](/images/writeups/machines/hacksmarter/HSM_Aftermath/root.png)
 
 Now that we have complete control of the box, let's look for the flags.  
-![root-flags.png](/images/writeups/machines/hacksmarter/HackSmarter_Aftermath/root-flags.png)
+
+![root-flags.png](/images/writeups/machines/hacksmarter/HSM_Aftermath/root-flags.png)
 
 ## Conclusion
 
@@ -193,5 +210,3 @@ Great attack chain for this one.
 SMTP Enum -> RoundCube Password Spray -> Post-Authenticated vulnerability in RoundCube v 1.5.9 -> Overly permissive sudoers file.
 
 Roundcube is an old friend that keeps showing up in boxes and that vulnerability itself existed in Roundcube for 10 years before it was caught by researchers.
-
-Kudos to HSM for another fun box!
