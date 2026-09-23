@@ -1,6 +1,6 @@
 ---
 title: 'HackSmarter: Arasaka'
-date: '2026-09-18'
+date: '2026-09-14'
 excerpt: Arasaka is a easy Active Directory lab that starts with valid credentials for a standard domain user. The attack chain involves Kerberoasting, BloodHound, abusing GenericAll and GenericWrite, and finally exploiting an ESC1-vulnerable AD CS template to compromise a Domain Admin.
 readingTime: 1
 tags:
