@@ -1,7 +1,7 @@
 ---
 title: "HackSmarter: Martini"
 date: 2026-09-12
-excerpt: An adult beverage company "Martini Bars" recently had a corporate breach and the compliance and risk team dictates they perform a penetration test at one of their branch offices. The Hack Smarter team has been authorized to perform an internal black box pentest.
+excerpt: An internal Active Directory assessment begins with anonymous SMB access and quickly snowballs into a full domain compromise. A combination of exposed credentials, Kerberoasting, and password reuse proves how small oversights can have enterprise-wide impact.
 readingTime: 1
 tags:
   - Writeup

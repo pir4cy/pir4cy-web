@@ -1,6 +1,6 @@
 ---
 title: 'HackSmarter: Welcome'
-date: 'YYYY-MM-DD'
+date: '2026-09-14'
 excerpt: 'A short overview of the challenge, the initial foothold, and the exploitation path leading to complete domain compromise.'
 readingTime: 1
 tags:
@@ -16,30 +16,54 @@ draft: true
 
 # Welcome
 
-## Info
-- IP: [IP Address]
-- OS: [Windows / Linux]
-- Difficulty: [Easy / Medium / Hard]
+## Objective / Scope
 
-## Initial Reconnaissance
+You are a member of the Hack Smarter Red Team. During a phishing engagement, you were able to retrieve credentials for the client's Active Directory environment. Use these credentials to enumerate the environment, elevate your privileges, and demonstrate impact for the client.
+
+## Starting Credentials
+
+```
+e.hills:Il0vemyj0b2025!
+```
+
+## Enumeration
 
 ### NMAP
 
 ![Nmap Scan](/images/writeups/machines/hacksmarter/HSM_Welcome/password-from-start-guide.png "NMAP")
 
-### SMB / AD Enumeration
+### SMB Enumeration
 
 Begin with domain and share enumeration to discover available services and user data.
 
-![SMB Enumeration](/images/writeups/machines/hacksmarter/HSM_Welcome/smbclient-download-hr-files.png "SMB Enumeration")
+![SMB Enumeration](/images/writeups/machines/hacksmarter/HSM_Welcome/nxc-ehills-smb-shares.png "SMB Enumeration")
 
-## Enumeration
+![Files from HR](/images/writeups/machines/hacksmarter/HSM_Welcome/smbclient-download-hr-files.png "Files from HR Share")
 
-### Credential Discovery
+### Bloodhound
 
-This zone often contains files, scripts, or user data that can reveal initial logins and support staff identities.
+Let's also run bloodhound since we can authenticate to LDAP.
+
+![Bloodhound Enum](/images/writeups/machines/hacksmarter/HSM_Welcome/nxc-ehills-bloodhound.png "Bloodhound Enum")
+
+## Foothold
+
+- from one of the files retrieved above, we find a default password for all users.
 
 ![Password Discovery](/images/writeups/machines/hacksmarter/HSM_Welcome/password-from-start-guide.png "Password Discovery")
+
+Let's test the password against all users
+
+![Password Spray](/images/writeups/machines/hacksmarter/HSM_Welcome/a-harris-default-password.png "Password-Spray")
+
+- `a.harris` is using the default password. 
+
+## Lateral Movement - i.park
+
+a.harris has GenericAll permissions for `i.park` via the HR group.
+
+![a.harris -> i.park](/images/writeups/machines/hacksmarter/HSM_Welcome/harris-bloodhound-genericAll-ipark.png "A.Harris GenericAll I.Park")
+
 
 ### Certificate / ADCS Abuse
 
@@ -51,36 +75,3 @@ The exploitation flow may involve vulnerable cert templates, ESC attacks, or rel
 # Example commands
 certipy req -debug -target [dc] -u [user] -p [pass] -template [template]
 ```
-
-## Foothold
-
-After gathering the right credentials or certificate data, authenticate and continue the compromise path.
-
-![Initial Access](/images/writeups/machines/hacksmarter/HSM_Welcome/req-auth-pwn-Admin.png "Initial Access")
-
-## Privilege Escalation
-
-### [PrivEsc Method]
-
-Describe the privilege escalation method that moved the compromise from a standard user to a highly privileged role.
-
-![Privilege Escalation](/images/writeups/machines/hacksmarter/HSM_Welcome/pw-change-svc-ca-&-adcs-check.png "Privilege Escalation")
-
-```bash
-# Commands used for escalation
-```
-
-## Final Access
-
-Once the environment is fully compromised, verify admin access and collect flags.
-
-![Rooted](/images/writeups/machines/hacksmarter/HSM_Welcome/rooted.png "Rooted")
-
-## Summary
-
-This machine illustrates the value of combining AD enumeration, certificate abuse, and privilege escalation. The key lesson is that once trust relationships and control points are exposed, full compromise can happen faster than expected.
-
-## Flags
-
-- User: [user.txt content]
-- Root: [root.txt content]

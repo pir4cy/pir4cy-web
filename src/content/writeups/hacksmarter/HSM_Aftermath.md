@@ -1,7 +1,7 @@
 ---
 title: HackSmarter - Aftermath
 date: 2026-09-10
-excerpt: You have been assigned a penetration test against a Linux server in the client's network. Your objective is to gain root access. The client has planted three flags on the system, retrieving each of these flags demonstrates impact.
+excerpt: A Linux penetration test that starts with SMTP user enumeration and ends in full system compromise. Weak credential hygiene, an exposed webmail platform, and an overly permissive sudo configuration create a straightforward path to root.
 readingTime: 5
 tags:
   - Writeup

@@ -1,7 +1,7 @@
 ---
 title: 'HackSmarter: Walnut'
 date: 2026-09-09
-excerpt: Walnut is an easy linux machine from HackSmarter. You have been assigned a penetration test on a critical Linux server in the client's environment. The primary objective is to gain root-level access to this system to demonstrate maximum impact from the engagement.
+excerpt: An assumed-breach assessment against a Linux server turns into a lesson in thorough enumeration. LDAP reveals forgotten secrets, SMB exposes automation artifacts, and a chain of small misconfigurations ultimately leads to full root access.
 readingTime: 1
 tags:
   - Writeup
