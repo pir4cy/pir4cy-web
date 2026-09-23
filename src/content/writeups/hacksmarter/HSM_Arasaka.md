@@ -10,7 +10,7 @@ tags:
   - Active Directory
   - Easy
 author: pir4cy
-coverImage: /images/writeups/covers/hacksmarter/hsm-arasaka-cover.png
+coverImage: /images/writeups/covers/hacksmarter/hsm-arasaka-cover.jpeg
 draft: false
 ---
 
