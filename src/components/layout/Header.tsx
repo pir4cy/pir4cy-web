@@ -29,6 +29,7 @@ const Header: React.FC = () => {
     { name: 'Home', path: '/' },
     { name: 'Blog', path: '/blog' },
     { name: 'Projects', path: '/projects' },
+    { name: 'CTF', path: 'https://ctf.pir4cy.com', external: true },
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];
